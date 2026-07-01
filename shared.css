@@ -1,0 +1,509 @@
+/* ── Shared stylesheet for all exercise and study guide pages ── */
+/* Works with both local file:// and GitHub Pages deployment */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  --paper: #f4f1eb;
+  --paper2: #eae6dd;
+  --ink: #1b1f3a;
+  --ink2: #2e3460;
+  --muted: #7a7f9a;
+  --accent: #2a52be;
+  --accent-light: #b4c4f0;
+  --accent-pale: #e8edf9;
+  --border: #c5c9de;
+  --code-bg: #0d1117;
+  --code-text: #c9d1d9;
+  --code-ln: #484f58;
+  --code-kw: #ff7b72;
+  --code-st: #a5d6a7;
+  --code-nu: #ffa657;
+  --code-fn: #79c0ff;
+  --code-cm: #8b949e;
+  --code-pp: #d2a8ff;
+}
+
+html.dark {
+  --paper: #0d1b2a;
+  --paper2: #112240;
+  --ink: #ccd6f6;
+  --ink2: #a8b2d8;
+  --muted: #637aad;
+  --accent: #64ffda;
+  --accent-light: #1d3d5c;
+  --accent-pale: #0a192f;
+  --border: #1e3a5f;
+  --code-bg: #060f1a;
+  --code-text: #ccd6f6;
+  --code-ln: #334166;
+  --code-kw: #ff79c6;
+  --code-st: #50fa7b;
+  --code-nu: #ffb86c;
+  --code-fn: #64dfdf;
+  --code-cm: #6272a4;
+  --code-pp: #bd93f9;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 17px;
+  line-height: 1.75;
+  min-height: 100vh;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("https://www.transparenttextures.com/patterns/p6.png");
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* ── TOP BAR ── */
+.topbar {
+  background: var(--paper);
+  border-bottom: 3px double var(--ink);
+  padding: 0 48px;
+  position: sticky;
+  top: 0;
+  z-index: 500;
+}
+
+.topbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  gap: 16px;
+}
+
+.back-link {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: opacity 0.15s;
+}
+
+.back-link:hover { opacity: 0.7; }
+
+.topbar-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent-pale);
+  border: 1.5px solid var(--border);
+  border-radius: 999px;
+  padding: 5px 14px 5px 8px;
+  cursor: pointer;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--ink2);
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.25s;
+}
+
+.theme-toggle:hover {
+  background: var(--accent);
+  color: var(--paper);
+  border-color: var(--accent);
+}
+
+.toggle-track {
+  width: 30px;
+  height: 16px;
+  background: var(--border);
+  border-radius: 999px;
+  position: relative;
+  transition: background 0.3s;
+  flex-shrink: 0;
+}
+
+html.dark .toggle-track { background: var(--accent); }
+
+.toggle-thumb {
+  width: 10px;
+  height: 10px;
+  background: var(--paper);
+  border-radius: 50%;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+html.dark .toggle-thumb { transform: translateX(14px); }
+
+/* ── HERO ── */
+.hero {
+  border-bottom: 1px solid var(--border);
+  padding: 52px 48px 40px;
+  background: var(--paper2);
+}
+
+.hero-cat {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(28px, 4.5vw, 52px);
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  line-height: 1.08;
+  color: var(--ink);
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.hero-sub {
+  font-style: italic;
+  color: var(--muted);
+  font-size: 15px;
+  margin-top: 8px;
+}
+
+/* ── TOC ── */
+.toc-bar {
+  background: var(--paper);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 48px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.toc-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  flex-shrink: 0;
+  margin-right: 4px;
+}
+
+.toc-chip {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  padding: 4px 12px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  color: var(--ink2);
+  text-decoration: none;
+  background: var(--paper2);
+  transition: all 0.15s;
+}
+
+.toc-chip:hover {
+  background: var(--accent);
+  color: var(--paper);
+  border-color: var(--accent);
+}
+
+/* ── CONTENT ── */
+.content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 56px 48px 80px;
+}
+
+/* ── EXERCISE CARD ── */
+.exercise {
+  margin-bottom: 60px;
+  scroll-margin-top: 80px;
+}
+
+.exercise-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--ink);
+}
+
+.exercise-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 48px;
+  font-weight: 900;
+  color: var(--accent);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.exercise-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.exercise-desc {
+  font-size: 16px;
+  color: var(--ink2);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.example-note {
+  border-left: 4px solid var(--accent);
+  padding: 10px 18px;
+  background: var(--accent-pale);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--ink2);
+  margin: 16px 0;
+}
+
+/* ── SIGNATURE LINE ── */
+.sig-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+  margin-top: 18px;
+}
+
+/* ── SOLUTION TOGGLE ── */
+.solution-toggle {
+  background: none;
+  border: 1.5px solid var(--accent);
+  color: var(--accent);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.2s;
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.solution-toggle:hover {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+.solution-toggle .toggle-arrow {
+  font-size: 14px;
+  transition: transform 0.25s;
+}
+
+.solution-toggle.open .toggle-arrow {
+  transform: rotate(90deg);
+}
+
+.solution-block {
+  display: none;
+  margin-top: 12px;
+}
+
+.solution-block.visible {
+  display: block;
+}
+
+.solution-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+/* ── CODE BLOCK ── */
+.code-block {
+  background: var(--code-bg);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 8px 0 20px;
+  border: 1px solid #2a2520;
+}
+
+.code-bar {
+  background: #2a2520;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #3a3530;
+}
+
+.code-dots {
+  display: flex;
+  gap: 5px;
+}
+
+.code-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.dot-r { background: #ff5f57; }
+.dot-y { background: #febc2e; }
+.dot-g { background: #28c840; }
+
+.code-copy {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  padding: 3px 10px;
+  background: transparent;
+  border: 1px solid #3a3530;
+  color: #8a7f6a;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.15s;
+}
+
+.code-copy:hover {
+  color: #e8c06e;
+  border-color: #e8c06e;
+}
+
+pre.code-pre {
+  padding: 16px 20px;
+  overflow-x: auto;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12.5px;
+  line-height: 1.75;
+  color: var(--code-text);
+  margin: 0;
+  scrollbar-width: thin;
+  scrollbar-color: #3a3530 transparent;
+}
+
+/* Syntax classes */
+.kw { color: var(--code-kw); font-weight: 500; }
+.cm { color: var(--code-cm); font-style: italic; }
+.st { color: var(--code-st); }
+.pp { color: var(--code-pp); }
+.nu { color: var(--code-nu); }
+.fn { color: var(--code-fn); }
+
+/* ── INLINE CODE ── */
+code {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  background: var(--accent-pale);
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: var(--accent);
+}
+
+/* ── SECTION DIVIDER ── */
+.divider {
+  text-align: center;
+  color: var(--accent);
+  font-size: 16px;
+  letter-spacing: 10px;
+  margin: 48px 0 40px;
+  opacity: 0.5;
+}
+
+/* ── SECTION HEADING ── */
+.section-heading {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border-top: 1px solid var(--border);
+  padding-top: 32px;
+  margin: 48px 0 28px;
+}
+
+/* ── TABLE ── */
+.content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0 24px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+}
+
+.content table th,
+.content table td {
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+}
+
+.content table th {
+  background: var(--paper2);
+  color: var(--ink);
+}
+
+/* ── FOOTER ── */
+.page-footer {
+  border-top: 3px double var(--ink);
+  padding: 24px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--paper2);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+}
+
+.page-footer a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .topbar { padding: 0 20px; }
+  .hero { padding: 36px 22px 28px; }
+  .toc-bar { padding: 14px 22px; }
+  .content { padding: 36px 22px 60px; }
+  .page-footer { flex-direction: column; gap: 6px; text-align: center; padding: 18px 22px; }
+}

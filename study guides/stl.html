@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STL Overview — Study Guide · CS11212</title>
+  <meta name="description" content="C++ Standard Template Library (STL) reference guide for PSUT Data Structures course, covering vector, list, stack, queue, set, map and range-based loops." />
+  <link rel="stylesheet" href="../shared.css" />
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="back-link" href="../index.html">← Back to Main Site</a>
+      <span class="topbar-title">CS11212 · Data Structures &amp; Algorithms · PSUT</span>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <div class="toggle-track"><div class="toggle-thumb"></div></div>
+        <span id="themeLabel">DARK</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-cat">Study Guide · Topic 7</div>
+    <h1>STL <em>Overview</em></h1>
+    <p class="hero-sub">C++ Standard Template Library — <code>vector</code> · <code>list</code> · <code>stack</code> · <code>queue</code> · <code>set</code> · <code>map</code></p>
+  </div>
+
+  <div class="toc-bar">
+    <span class="toc-label">Jump to:</span>
+    <a class="toc-chip" href="#intro">What is STL?</a>
+    <a class="toc-chip" href="#stacks-queues">Stacks &amp; Queues</a>
+    <a class="toc-chip" href="#vectors">Vectors</a>
+    <a class="toc-chip" href="#lists">Linked Lists</a>
+    <a class="toc-chip" href="#set">Set</a>
+    <a class="toc-chip" href="#map">Map</a>
+    <a class="toc-chip" href="#range-loops">Range-Based Loops</a>
+    <a class="toc-chip" href="#resources">Resources</a>
+  </div>
+
+  <div class="content">
+
+    <!-- INTRO -->
+    <div class="section-heading" id="intro">What Is The STL?</div>
+    <p style="color: var(--ink2); margin-bottom: 20px; line-height: 1.8;">
+      The STL (Standard Template Library) is a built-in C++ library offering a wide range of container classes implemented using the data structures from this course. Key containers include:
+    </p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin-bottom: 28px;">
+      <div style="background: var(--paper2); border: 1px solid var(--border); padding: 12px 16px; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 12px;">
+        <div style="color: var(--accent); margin-bottom: 4px;">stack</div>
+        <div style="color: var(--muted);">Linked-list or array based</div>
+      </div>
+      <div style="background: var(--paper2); border: 1px solid var(--border); padding: 12px 16px; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 12px;">
+        <div style="color: var(--accent); margin-bottom: 4px;">queue</div>
+        <div style="color: var(--muted);">FIFO ordering</div>
+      </div>
+      <div style="background: var(--paper2); border: 1px solid var(--border); padding: 12px 16px; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 12px;">
+        <div style="color: var(--accent); margin-bottom: 4px;">vector</div>
+        <div style="color: var(--muted);">Dynamic array</div>
+      </div>
+      <div style="background: var(--paper2); border: 1px solid var(--border); padding: 12px 16px; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 12px;">
+        <div style="color: var(--accent); margin-bottom: 4px;">list</div>
+        <div style="color: var(--muted);">Doubly-linked list</div>
+      </div>
+      <div style="background: var(--paper2); border: 1px solid var(--border); padding: 12px 16px; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 12px;">
+        <div style="color: var(--accent); margin-bottom: 4px;">set</div>
+        <div style="color: var(--muted);">Balanced BST, no duplicates</div>
+      </div>
+      <div style="background: var(--paper2); border: 1px solid var(--border); padding: 12px 16px; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 12px;">
+        <div style="color: var(--accent); margin-bottom: 4px;">map</div>
+        <div style="color: var(--muted);">Balanced BST, key→value</div>
+      </div>
+      <div style="background: var(--paper2); border: 1px solid var(--border); padding: 12px 16px; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 12px;">
+        <div style="color: var(--accent); margin-bottom: 4px;">unordered_set</div>
+        <div style="color: var(--muted);">Hash table</div>
+      </div>
+      <div style="background: var(--paper2); border: 1px solid var(--border); padding: 12px 16px; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 12px;">
+        <div style="color: var(--accent); margin-bottom: 4px;">priority_queue</div>
+        <div style="color: var(--muted);">Heap-based</div>
+      </div>
+    </div>
+
+    <div class="example-note">
+      <strong>What you need to know for this course:</strong> Basic operations, running times, range-based loops, and when to use which container — for <code>vector</code>, <code>list</code>, <code>stack</code>, <code>queue</code>, <code>set</code>, and <code>map</code>.
+    </div>
+
+    <!-- STACKS & QUEUES -->
+    <div class="section-heading" id="stacks-queues">STL Stacks &amp; Queues</div>
+
+    <div class="exercise">
+      <div class="exercise-header">
+        <div class="exercise-num" style="font-size: 28px;">📦</div>
+        <div class="exercise-title"><code>stack</code> &amp; <code>queue</code> API</div>
+      </div>
+      <div class="sig-label">Stack Functions</div>
+      <table>
+        <thead><tr><th>Function</th><th>Description</th><th>Time</th></tr></thead>
+        <tbody>
+          <tr><td><code>push(val)</code></td><td>Add to top of stack</td><td>O(1)</td></tr>
+          <tr><td><code>top()</code></td><td>Return top element</td><td>O(1)</td></tr>
+          <tr><td><code>pop()</code></td><td>Remove top (doesn't return)</td><td>O(1)</td></tr>
+          <tr><td><code>empty()</code></td><td>Check if stack is empty</td><td>O(1)</td></tr>
+          <tr><td><code>size()</code></td><td>Number of elements</td><td>O(1)</td></tr>
+        </tbody>
+      </table>
+      <div class="sig-label" style="margin-top:20px;">Queue Functions</div>
+      <table>
+        <thead><tr><th>Function</th><th>Description</th><th>Time</th></tr></thead>
+        <tbody>
+          <tr><td><code>push(val)</code></td><td>Enqueue to back</td><td>O(1)</td></tr>
+          <tr><td><code>pop()</code></td><td>Dequeue from front (doesn't return)</td><td>O(1)</td></tr>
+          <tr><td><code>front()</code></td><td>Return first element</td><td>O(1)</td></tr>
+          <tr><td><code>back()</code></td><td>Return last element</td><td>O(1)</td></tr>
+          <tr><td><code>empty()</code></td><td>Check if queue is empty</td><td>O(1)</td></tr>
+          <tr><td><code>size()</code></td><td>Number of elements</td><td>O(1)</td></tr>
+        </tbody>
+      </table>
+      <div class="sig-label" style="margin-top:20px;">Example</div>
+      <div class="code-block">
+        <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+        <pre class="code-pre" data-code="#include <stack>
+#include <queue>
+#include <iostream>
+using namespace std;
+
+int main() {
+    stack<int> s;
+    queue<int> q;
+
+    // add 0-9 to the stack and queue
+    for (int i = 0; i < 10; i++) {
+        s.push(i);
+        q.push(i);
+    }
+
+    // remove the stack elements and print them (9, 8, 7, ...)
+    while (!s.empty()) {
+        int val = s.top();
+        cout << val << &quot; &quot;;
+        s.pop();
+    }
+    cout << endl;
+
+    // remove the queue elements and print them (0, 1, 2, ...)
+    while (!q.empty()) {
+        int val = q.front();
+        cout << val << &quot; &quot;;
+        q.pop();
+    }
+
+    return 0;
+}"></pre>
+      </div>
+    </div>
+
+    <!-- VECTORS -->
+    <div class="section-heading" id="vectors">Vectors</div>
+
+    <div class="exercise">
+      <div class="exercise-header">
+        <div class="exercise-num" style="font-size: 28px;">📋</div>
+        <div class="exercise-title"><code>vector</code> — Dynamic Array</div>
+      </div>
+      <table>
+        <thead><tr><th>Function</th><th>Equivalent</th><th>Time</th></tr></thead>
+        <tbody>
+          <tr><td><code>push_back(val)</code></td><td><code>add_to_tail(val)</code></td><td>O(1) amortized</td></tr>
+          <tr><td><code>pop_back()</code></td><td><code>remove_tail()</code></td><td>O(1)</td></tr>
+          <tr><td><code>clear()</code></td><td>Remove all elements</td><td>O(n)</td></tr>
+          <tr><td><code>empty()</code></td><td>Check if empty</td><td>O(1)</td></tr>
+          <tr><td><code>size()</code></td><td>Number of elements</td><td>O(1)</td></tr>
+          <tr><td><code>v[i]</code></td><td>Direct element access</td><td>O(1)</td></tr>
+        </tbody>
+      </table>
+      <div class="example-note" style="margin: 16px 0;">No dedicated functions for adding/removing from the beginning. Use <code>deque</code> if you need efficient front operations.</div>
+      <div class="sig-label">Example</div>
+      <div class="code-block">
+        <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+        <pre class="code-pre" data-code="#include <vector>
+#include <iostream>
+using namespace std;
+
+int main() {
+    vector<int> v;
+    for (int i = 0; i < 10; i++)
+        v.push_back(i);   // [0, 1, 2, ..., 9]
+
+    // random access
+    for (int i = 0; i < 10; i++) {
+        int rand_index = rand() % v.size();
+        cout << v[rand_index] << &quot; &quot;;
+    }
+    cout << endl;
+
+    return 0;
+}"></pre>
+      </div>
+    </div>
+
+    <!-- LINKED LISTS -->
+    <div class="section-heading" id="lists">STL Linked Lists</div>
+
+    <div class="exercise">
+      <div class="exercise-header">
+        <div class="exercise-num" style="font-size: 28px;">🔗</div>
+        <div class="exercise-title"><code>list</code> — Doubly-Linked List</div>
+      </div>
+      <table>
+        <thead><tr><th>Function</th><th>Equivalent</th><th>Time</th></tr></thead>
+        <tbody>
+          <tr><td><code>push_back(val)</code></td><td><code>add_to_tail(val)</code></td><td>O(1)</td></tr>
+          <tr><td><code>pop_back()</code></td><td><code>remove_tail()</code></td><td>O(1)</td></tr>
+          <tr><td><code>push_front(val)</code></td><td><code>add_to_head(val)</code></td><td>O(1)</td></tr>
+          <tr><td><code>pop_front()</code></td><td><code>remove_head()</code></td><td>O(1)</td></tr>
+          <tr><td><code>front()</code></td><td><code>head_val()</code></td><td>O(1)</td></tr>
+          <tr><td><code>back()</code></td><td><code>tail_val()</code></td><td>O(1)</td></tr>
+          <tr><td><code>empty()</code></td><td>Check if empty</td><td>O(1)</td></tr>
+          <tr><td><code>size()</code></td><td>Number of elements</td><td>O(1)</td></tr>
+        </tbody>
+      </table>
+      <div class="sig-label" style="margin-top: 20px;">Example</div>
+      <div class="code-block">
+        <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+        <pre class="code-pre" data-code="#include <list>
+#include <iostream>
+using namespace std;
+
+int main() {
+    // mylist: 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+    list<int> mylist;
+    for (int i = 0; i < 10; i++) {
+        mylist.push_back(i);
+        mylist.push_front(i);
+    }
+
+    // removes from the head and prints
+    while (!mylist.empty()) {
+        cout << mylist.front() << &quot; &quot;;
+        mylist.pop_front();
+    }
+    cout << endl;
+
+    return 0;
+}"></pre>
+      </div>
+    </div>
+
+    <!-- SET -->
+    <div class="section-heading" id="set">The <code>set</code> Container</div>
+
+    <div class="exercise">
+      <div class="exercise-header">
+        <div class="exercise-num" style="font-size: 28px;">🌳</div>
+        <div class="exercise-title"><code>set</code> — Balanced BST, No Duplicates</div>
+      </div>
+      <p class="exercise-desc">Implemented as a balanced BST. All operations run in O(log n). Elements are always iterated in ascending order.</p>
+      <table>
+        <thead><tr><th>Function</th><th>Description</th><th>Time</th></tr></thead>
+        <tbody>
+          <tr><td><code>insert(val)</code></td><td>Insert val (if not present)</td><td>O(log n)</td></tr>
+          <tr><td><code>erase(val)</code></td><td>Remove val</td><td>O(log n)</td></tr>
+          <tr><td><code>count(val)</code></td><td>1 if present, 0 otherwise</td><td>O(log n)</td></tr>
+          <tr><td><code>clear()</code></td><td>Remove all elements</td><td>O(n)</td></tr>
+          <tr><td><code>empty()</code></td><td>Check if empty</td><td>O(1)</td></tr>
+          <tr><td><code>size()</code></td><td>Number of elements</td><td>O(1)</td></tr>
+        </tbody>
+      </table>
+      <div class="sig-label" style="margin-top: 20px;">Example</div>
+      <div class="code-block">
+        <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+        <pre class="code-pre" data-code='#include <set>
+#include <iostream>
+using namespace std;
+
+int main() {
+    set<string> names;
+    names.insert("Khalid");   // inserting same name three times
+    names.insert("Khalid");   // set silently ignores duplicates
+    names.insert("Khalid");   
+
+    names.insert("Ahmad");
+    names.insert("Hamada");
+    names.insert("Salma");
+    names.erase("Salma");     // remove Salma
+
+    cout << "Khalid: " << names.count("Khalid") << endl; // 1
+    cout << "Ahmad:  " << names.count("Ahmad")  << endl; // 1
+    cout << "Salma:  " << names.count("Salma")  << endl; // 0
+
+    return 0;
+}'></pre>
+      </div>
+    </div>
+
+    <!-- MAP -->
+    <div class="section-heading" id="map">The <code>map</code> Container</div>
+
+    <div class="exercise">
+      <div class="exercise-header">
+        <div class="exercise-num" style="font-size: 28px;">🗺️</div>
+        <div class="exercise-title"><code>map</code> — Key → Value Pairs</div>
+      </div>
+      <p class="exercise-desc">Implemented as a balanced BST where each node stores a key-value pair. Keys are unique; values can repeat. Iterating gives keys in ascending order.</p>
+      <table>
+        <thead><tr><th>Function</th><th>Description</th><th>Time</th></tr></thead>
+        <tbody>
+          <tr><td><code>mymap[key] = val</code></td><td>Insert or update pair</td><td>O(log n)</td></tr>
+          <tr><td><code>mymap[key]</code></td><td>Return value for key (inserts if missing!)</td><td>O(log n)</td></tr>
+          <tr><td><code>erase(key)</code></td><td>Remove key</td><td>O(log n)</td></tr>
+          <tr><td><code>count(key)</code></td><td>1 if key exists, 0 otherwise</td><td>O(log n)</td></tr>
+          <tr><td><code>clear()</code></td><td>Remove all pairs</td><td>O(n)</td></tr>
+          <tr><td><code>empty()</code></td><td>Check if empty</td><td>O(1)</td></tr>
+          <tr><td><code>size()</code></td><td>Number of key-value pairs</td><td>O(1)</td></tr>
+        </tbody>
+      </table>
+      <div class="sig-label" style="margin-top: 20px;">Example</div>
+      <div class="code-block">
+        <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+        <pre class="code-pre" data-code='#include <map>
+#include <iostream>
+using namespace std;
+
+int main() {
+    map<string, int> cities;
+    
+    cities["Huwwara"] = 25000;
+    cities["Irbid"]   = 177000;
+    cities["Amman"]   = 4008000;
+    cities["Ajloun"]  = 148870;
+    cities["Aqaba"]   = 188160;
+    cities["Zarqa"]   = 1365000;
+
+    cities["Zarqa"]   = 9999999;  // update existing key
+
+    cities.erase("Irbid");        // remove Irbid from map
+
+    cout << "Amman: " << cities["Amman"] << endl;
+    cout << "Aqaba: " << cities["Aqaba"] << endl;
+    
+    return 0;
+}'></pre>
+      </div>
+    </div>
+
+    <!-- RANGE-BASED LOOPS -->
+    <div class="section-heading" id="range-loops">Range-Based Loops</div>
+
+    <div class="exercise">
+      <div class="exercise-header">
+        <div class="exercise-num" style="font-size: 28px;">🔄</div>
+        <div class="exercise-title">Iterating Over STL Containers</div>
+      </div>
+      <p class="exercise-desc">C++ provides range-based loops to iterate over all STL containers with the same syntax:</p>
+      <div class="code-block">
+        <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+        <pre class="code-pre" data-code='#include <set>
+#include <vector>
+#include <list>
+#include <map>
+#include <iostream>
+using namespace std;
+
+int main() {
+    // Iterating over a set (always in ascending order)
+    set<string> names = {"Khalid", "Ahmad", "Hamada"};
+    for (string name : names)
+        cout << name << endl;
+
+    // Iterating over a vector
+    vector<int> v = {1, 2, 3, 4, 5};
+    for (int num : v)
+        cout << num << " ";
+    cout << endl;
+
+    // Iterating over a list
+    list<int> l = {5, 4, 3, 2, 1};
+    for (int num : l)
+        cout << num << " ";
+    cout << endl;
+
+    // Iterating over a map (pairs, in ascending key order)
+    map<string, int> cities;
+    cities["Amman"]  = 4008000;
+    cities["Aqaba"]  = 188160;
+    cities["Zarqa"]  = 1365000;
+
+    for (pair<string, int> city_pop : cities)
+        cout << city_pop.first << " : " << city_pop.second << endl;
+
+    return 0;
+}'></pre>
+      </div>
+    </div>
+
+    <!-- RESOURCES -->
+    <div class="section-heading" id="resources">Learning Resources</div>
+
+    <div class="exercise">
+      <div class="exercise-header">
+        <div class="exercise-num" style="font-size: 28px;">🎓</div>
+        <div class="exercise-title">Official Course Resources</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 12px;">
+        <a href="https://drive.google.com/file/d/1UzGUJo0SoTqdrPRJxI5pek5DaFIErchI/view" target="_blank" rel="noopener" class="resource-link">🎬 STL Overview Video (by UTA Aya Tell) ↗</a>
+        <a href="https://drive.google.com/file/d/1dywBBjQJd7yDoEGd8fcMfNgf6Pg5nLvX/view?usp=drive_link" target="_blank" rel="noopener" class="resource-link">🎬 Advanced STL: Iterators, Priority Queues, Algorithms ↗</a>
+        <a href="https://github.com/ialbluwi/psut-data-structures/blob/main/code/STL.cpp" target="_blank" rel="noopener" class="resource-link">📄 STL.cpp (code from advanced video) ↗</a>
+      </div>
+    </div>
+
+    <div class="divider">✦ · ✦ · ✦</div>
+
+  </div>
+
+  <footer class="page-footer">
+    <span>STL Overview · CS11212 · PSUT</span>
+    <a href="../index.html">← Back to Main Site</a>
+  </footer>
+
+  <style>
+    .resource-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--accent-pale);
+      border: 1.5px solid var(--accent);
+      color: var(--accent);
+      text-decoration: none;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+    .resource-link:hover { background: var(--accent); color: var(--paper); }
+    table a { color: var(--accent); }
+  </style>
+
+  <script src="../shared.js"></script>
+</body>
+</html>

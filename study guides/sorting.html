@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sorting &amp; Searching — Study Guide · CS11212</title>
+  <meta name="description" content="Study guide for Sorting and Searching algorithms in PSUT Data Structures course." />
+  <link rel="stylesheet" href="../shared.css" />
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="back-link" href="../index.html">← Back to Main Site</a>
+      <span class="topbar-title">CS11212 · Data Structures &amp; Algorithms · PSUT</span>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <div class="toggle-track"><div class="toggle-thumb"></div></div>
+        <span id="themeLabel">DARK</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-cat">Study Guide · Topic 5</div>
+    <h1>Sorting &amp; <em>Searching</em></h1>
+    <p class="hero-sub">Selection Sort · Insertion Sort · Bubble Sort · Binary Search · Operation counting</p>
+  </div>
+
+  <div class="content">
+
+    <div class="section-heading">Recommended Study Path</div>
+
+    <div class="exercise">
+      <div class="exercise-header">
+        <div class="exercise-num">01</div>
+        <div class="exercise-title">Master the Slides</div>
+      </div>
+      <p class="exercise-desc">Begin by understanding everything in the slides. Ignore the <strong>Advanced Exercises</strong> at the end for now. Focus on:</p>
+      <ul style="margin: 12px 0 0 24px; color: var(--ink2); line-height: 2;">
+        <li>How each algorithm works step by step</li>
+        <li>The number of comparisons and swaps/shifts for each algorithm</li>
+        <li>Best case, worst case, and average case</li>
+        <li>Stability of each sorting algorithm</li>
+      </ul>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-header">
+        <div class="exercise-num">02</div>
+        <div class="exercise-title">Tracing Practice</div>
+      </div>
+      <p class="exercise-desc">Solve the following operation-counting tracing table. Assume Bubble Sort uses a "swapped" flag and Selection Sort doesn't swap an element with itself.</p>
+
+      <div class="code-block" style="margin-top: 12px;">
+        <div class="code-bar">
+          <div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#8a7f6a;">OPERATION COUNT TABLE</span>
+        </div>
+        <pre class="code-pre" data-code="|----------------|----------------|----------------|-------------|
+|                | Selection Sort | Insertion Sort | Bubble Sort |
+|----------------|----------------|----------------|-------------|
+|  1 2 3 4 5     | Swaps =        | Shifts =       | Swaps =     |
+|                | DCs   =        | DCs    =       | DCs   =     |
+|----------------|----------------|----------------|-------------|
+|  5 4 3 2 1     | Swaps =        | Shifts =       | Swaps =     |
+|                | DCs   =        | DCs    =       | DCs   =     |
+|----------------|----------------|----------------|-------------|
+|  5 1 2 3 4     | Swaps =        | Shifts =       | Swaps =     |
+|                | DCs   =        | DCs    =       | DCs   =     |
+|----------------|----------------|----------------|-------------|
+|  1 5 4 3 2     | Swaps =        | Shifts =       | Swaps =     |
+|                | DCs   =        | DCs    =       | DCs   =     |
+|----------------|----------------|----------------|-------------|"></pre>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-header">
+        <div class="exercise-num">03</div>
+        <div class="exercise-title">Worksheets</div>
+      </div>
+      <table>
+        <thead><tr><th>Algorithm</th><th>Exercises</th><th>Solutions</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Selection Sort</td>
+            <td><a href="https://docs.google.com/document/d/1PFK_hDCkCq92s5yjkQOvukkTaA7aT17UYLYRUld4yjA" target="_blank" rel="noopener">Exercises ↗</a></td>
+            <td><a href="https://docs.google.com/document/d/1iVeF7Xrv6psQvEpvfhsJnshfqeOiHm0b6o7q8unvszw" target="_blank" rel="noopener">Solutions ↗</a></td>
+          </tr>
+          <tr>
+            <td>Bubble Sort</td>
+            <td><a href="https://docs.google.com/document/d/1woKyVhQ65CvYBTjLVt5hzTZfMSNOLB7Pfz1e6Hg9L3Q" target="_blank" rel="noopener">Exercises ↗</a></td>
+            <td><a href="https://docs.google.com/document/d/1KrBXubdPcXwfFM3R88OirCDm2pHZb0ff3Qyj6GUfdBQ" target="_blank" rel="noopener">Solutions ↗</a></td>
+          </tr>
+          <tr>
+            <td>Insertion Sort</td>
+            <td><a href="https://docs.google.com/document/d/19JQzSO_Lo37xYBLKE1lRYr2Jll_l1Pr_Nx34-lS-lsc" target="_blank" rel="noopener">Exercises ↗</a></td>
+            <td><a href="https://docs.google.com/document/d/1ZhTBS8dUuZe404gel1JzQ3Q-hZDEECo_IU1pS9DJanQ" target="_blank" rel="noopener">Solutions ↗</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-header">
+        <div class="exercise-num">04</div>
+        <div class="exercise-title">Advanced Exercises</div>
+      </div>
+      <p class="exercise-desc">Work through the advanced exercises at the end of the sorting slides. A video explanation is provided:</p>
+      <div style="margin-top: 16px;">
+        <a href="https://drive.google.com/file/d/1VNFGeoSQi04xGBRpS6mXdLk_Ktgw8mdE/view?usp=share_link" target="_blank" rel="noopener" class="resource-link">🎬 Video Explanation ↗</a>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-header">
+        <div class="exercise-num">05</div>
+        <div class="exercise-title">Recent Previous Exams</div>
+      </div>
+      <table>
+        <thead><tr><th>Exam</th><th>Question</th><th>Solution</th></tr></thead>
+        <tbody>
+          <tr><td>Midterm – Fall 2021</td><td><a href="https://drive.google.com/file/d/1dAMSwZIaUHxgv95D3pNuzg9Qh0bcr_UY/view?usp=share_link" target="_blank" rel="noopener">Question 4 ↗</a></td><td><a href="https://drive.google.com/file/d/1JJMzZyC2iNYfi3XsEUYSThoFLZ-pvitw/view?usp=share_link" target="_blank" rel="noopener">Solution ↗</a></td></tr>
+          <tr><td>First Exam – Fall 2022</td><td><a href="https://drive.google.com/file/d/1nJui0DRtQ-2B6baLzgz5yASaCvtnL9eT/view?usp=share_link" target="_blank" rel="noopener">Question 2 ↗</a></td><td><a href="https://drive.google.com/file/d/14YsAGziZOqFDc40crCYj0pAkfAUY9wMb/view?usp=share_link" target="_blank" rel="noopener">Solution ↗</a></td></tr>
+          <tr><td>First Exam – Spring 2022</td><td>Question 2</td><td><a href="https://drive.google.com/file/d/1-f3Cn9s9qJGn0LVN4a268UyDiBexRouo/view?usp=share_link" target="_blank" rel="noopener">Solution ↗</a></td></tr>
+          <tr><td>First Exam – Spring 2023</td><td><a href="https://drive.google.com/file/d/1iENXZOOyi0rZC3YnYxOJaBAHn1ZHYv1o" target="_blank" rel="noopener">Q2 + Q4 ↗</a></td><td><a href="https://drive.google.com/file/d/1ctxDT7qqOfYFqHQTBdwMZvBNwVyC3EMe" target="_blank" rel="noopener">Solution ↗</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-header">
+        <div class="exercise-num">06</div>
+        <div class="exercise-title">Old Previous Exams</div>
+      </div>
+      <div style="margin-top: 16px;">
+        <a href="https://docs.google.com/document/d/17SfDcoqVTrXCOfDPthRuwgHJCGsZWg3NGwCRDc56Vh8" target="_blank" rel="noopener" class="resource-link">📂 Old Exam Archive ↗</a>
+      </div>
+    </div>
+
+    <div class="divider">✦ · ✦ · ✦</div>
+
+  </div>
+
+  <footer class="page-footer">
+    <span>Sorting &amp; Searching Study Guide · CS11212 · PSUT</span>
+    <a href="../index.html">← Back to Main Site</a>
+  </footer>
+
+  <style>
+    .resource-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      background: var(--accent-pale);
+      border: 1.5px solid var(--accent);
+      color: var(--accent);
+      text-decoration: none;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+    .resource-link:hover { background: var(--accent); color: var(--paper); }
+    table a { color: var(--accent); }
+  </style>
+
+  <script src="../shared.js"></script>
+</body>
+</html>

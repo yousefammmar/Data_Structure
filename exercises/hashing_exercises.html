@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hash Table Exercises — CS11212</title>
+  <meta name="description" content="6 programming exercises on Hash Tables with full solutions for PSUT Data Structures course." />
+  <link rel="stylesheet" href="../shared.css" />
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="back-link" href="../index.html">← Back to Main Site</a>
+      <span class="topbar-title">CS11212 · Data Structures &amp; Algorithms · PSUT</span>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <div class="toggle-track"><div class="toggle-thumb"></div></div>
+        <span id="themeLabel">DARK</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-cat">Exercises · Hashing</div>
+    <h1>Hash Table <em>Exercises</em></h1>
+    <p class="hero-sub">Based on <code>hash_table.h</code> · 6 programming challenges with full solutions</p>
+  </div>
+
+  <div class="toc-bar">
+    <span class="toc-label">Jump to:</span>
+    <a class="toc-chip" href="#ex1">Ex 1 — max()</a>
+    <a class="toc-chip" href="#ex2">Ex 2 — has_duplicates()</a>
+    <a class="toc-chip" href="#ex3">Ex 3 — remove_duplicates()</a>
+    <a class="toc-chip" href="#ex4">Ex 4 — equals()</a>
+    <a class="toc-chip" href="#ex5">Ex 5 — has_long_chains()</a>
+    <a class="toc-chip" href="#ex6">Ex 6 — print()</a>
+  </div>
+
+  <div class="content">
+
+    <!-- EXERCISE 1 -->
+    <div class="exercise" id="ex1">
+      <div class="exercise-header">
+        <div class="exercise-num">01</div>
+        <div class="exercise-title"><code>T max() const</code></div>
+      </div>
+      <p class="exercise-desc">Returns the maximum element in the hash table. Throws an exception if the table is empty. Must iterate across all chains.</p>
+      <div class="sig-label">Signature</div>
+      <div class="code-block">
+        <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+        <pre class="code-pre" data-code="T max() const;"></pre>
+      </div>
+      <button class="solution-toggle" data-target="sol1"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol1">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code='template <class T>
+T HashTable<T>::max() const 
+{
+    if (is_empty())
+        throw string("ERROR: Attempting to retrieve the max from an empty hash table.");
+  
+    DLLNode<T>* max_node = nullptr;
+    for (int i = 0; i < m; i++) {
+        DLLNode<T>* curr = table[i].head_node();
+        while (curr != nullptr) {
+            if (max_node == nullptr || curr->get_val() > max_node->get_val())
+                max_node = curr;
+            curr = curr->get_next();
+        }
+    }
+  
+    return max_node->get_val();
+}
+
+// NOTE: Could be simplified by calling elements() and iterating over the linked list.'></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 2 -->
+    <div class="exercise" id="ex2">
+      <div class="exercise-header">
+        <div class="exercise-num">02</div>
+        <div class="exercise-title"><code>bool has_duplicates() const</code></div>
+      </div>
+      <p class="exercise-desc">Returns <code>true</code> if any element appears in the hash table more than once.</p>
+      <button class="solution-toggle" data-target="sol2"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol2">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+bool HashTable<T>::has_duplicates() const
+{
+    HashTable<T> temp_table;
+    DLList<T> temp_list = elements();
+  
+    DLLNode<T>* curr = temp_list.head_node();
+    while (curr != nullptr) {
+        if (temp_table.contains(curr->get_val()))
+            return true;
+        temp_table.insert(curr->get_val());
+        curr = curr->get_next();
+    }
+  
+    return false;
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 3 -->
+    <div class="exercise" id="ex3">
+      <div class="exercise-header">
+        <div class="exercise-num">03</div>
+        <div class="exercise-title"><code>void remove_duplicates()</code></div>
+      </div>
+      <p class="exercise-desc">Removes all duplicate elements from the hash table, leaving only distinct values.</p>
+      <button class="solution-toggle" data-target="sol3"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol3">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+void HashTable<T>::remove_duplicates()
+{
+    DLList<T> temp_list = elements();
+    clear();
+  
+    // insert back only distinct elements
+    DLLNode<T>* curr = temp_list.head_node();
+    while (curr != nullptr) {
+        if (!contains(curr->get_val()))
+            insert(curr->get_val());
+        curr = curr->get_next();
+    }
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 4 -->
+    <div class="exercise" id="ex4">
+      <div class="exercise-header">
+        <div class="exercise-num">04</div>
+        <div class="exercise-title"><code>bool equals(const HashTable&amp; other) const</code></div>
+      </div>
+      <p class="exercise-desc">Checks if this hash table is equal to <code>other</code>. Two tables are equal if they contain exactly the same elements, regardless of internal distribution. Assume all elements in each table are distinct.</p>
+      <button class="solution-toggle" data-target="sol4"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol4">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+bool HashTable<T>::equals(const HashTable<T>& other) const
+{
+    if (n != other.n)
+        return false;
+  
+    for (int i = 0; i < m; i++) {
+        DLLNode<T>* curr = table[i].head_node();
+        while (curr != nullptr) {
+            if (!other.contains(curr->get_val()))
+                return false;
+            curr = curr->get_next();
+        }
+    }
+  
+    return true;
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 5 -->
+    <div class="exercise" id="ex5">
+      <div class="exercise-header">
+        <div class="exercise-num">05</div>
+        <div class="exercise-title"><code>bool has_long_chains() const</code></div>
+      </div>
+      <p class="exercise-desc">Returns <code>true</code> if any chain in the table is longer than <strong>twice the average chain length</strong>. This is useful for detecting poor hash function distributions.</p>
+      <button class="solution-toggle" data-target="sol5"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol5">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+bool HashTable<T>::has_long_chains() const
+{  
+    double avg_length = (double) n / m;
+
+    for (int i = 0; i < m; i++) {
+        int count = 0;
+        DLLNode<T>* curr = table[i].head_node();
+
+        while (curr != nullptr) {
+            count++;
+            curr = curr->get_next();
+        }
+        
+        if (count > 2 * avg_length)
+            return true;
+    }
+    
+    return false;
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 6 -->
+    <div class="exercise" id="ex6">
+      <div class="exercise-header">
+        <div class="exercise-num">06</div>
+        <div class="exercise-title"><code>void print() const</code></div>
+      </div>
+      <p class="exercise-desc">Prints the hash table with each chain on its own line, formatted as shown below.</p>
+      <div class="code-block" style="margin-bottom:16px;">
+        <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+        <pre class="code-pre" data-code="// EXAMPLE FOR PRINTING A TABLE WITH 5 CHAINS
+// [0] {20, 10, 40}
+// [1] {11}
+// [2] {2, 12, 7, 2, 2, 27}
+// [3] {}
+// [4] {9, 19}"></pre>
+      </div>
+      <button class="solution-toggle" data-target="sol6"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol6">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+void HashTable<T>::print() const
+{ 
+    for (int i = 0; i < m; i++) {
+        cout << &quot;[&quot; << i << &quot;] &quot;;
+        cout << &quot;{&quot;;
+
+        DLLNode<T>* curr = table[i].head_node();
+        while (curr != nullptr) {
+            cout << curr->get_val();
+            if (curr != table[i].tail_node())
+                cout << &quot;, &quot;;      
+
+            curr = curr->get_next();
+        }
+
+        cout << &quot;}&quot; << endl;
+    }
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider">✦ · ✦ · ✦</div>
+
+  </div>
+
+  <footer class="page-footer">
+    <span>Hash Table Exercises · CS11212 · PSUT</span>
+    <a href="../index.html">← Back to Study Guide</a>
+  </footer>
+
+  <script src="../shared.js"></script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hashing — Study Guide · CS11212</title>
+  <meta name="description" content="Study guide for Hashing and Hash Tables in PSUT Data Structures course." />
+  <link rel="stylesheet" href="../shared.css" />
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="back-link" href="../index.html">← Back to Main Site</a>
+      <span class="topbar-title">CS11212 · Data Structures &amp; Algorithms · PSUT</span>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <div class="toggle-track"><div class="toggle-thumb"></div></div>
+        <span id="themeLabel">DARK</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-cat">Study Guide · Topic 6</div>
+    <h1>Hashing &amp; <em>Hash Tables</em></h1>
+    <p class="hero-sub">Chaining · Open addressing · Load factor · Collision resolution · <code>hash_table.h</code></p>
+  </div>
+
+  <div class="content">
+
+    <div class="section-heading">Recommended Study Path</div>
+
+    <div class="exercise">
+      <div class="exercise-header">
+        <div class="exercise-num">01</div>
+        <div class="exercise-title">Understand the Slides</div>
+      </div>
+      <p class="exercise-desc">Begin by thoroughly understanding the lecture slides. Pay particular attention to:</p>
+      <ul style="margin: 12px 0 0 24px; color: var(--ink2); line-height: 2;">
+        <li>What hash functions do and how to design good ones</li>
+        <li>Separate chaining vs. open addressing</li>
+        <li>Load factor and when to resize</li>
+        <li>Running time analysis for insert, search, and delete</li>
+      </ul>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-header">
+        <div class="exercise-num">02</div>
+        <div class="exercise-title">Study the Reference Code</div>
+      </div>
+      <p class="exercise-desc">Understand the implementation and make sure you can write it on your own:</p>
+      <div style="margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
+        <a href="https://github.com/ialbluwi/psut-data-structures/blob/main/code/hash_table.h" target="_blank" rel="noopener" class="resource-link">📄 hash_table.h ↗</a>
+        <a href="https://github.com/ialbluwi/psut-data-structures/blob/main/code/hashing.cpp" target="_blank" rel="noopener" class="resource-link">📄 hashing.cpp ↗</a>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-header">
+        <div class="exercise-num">03</div>
+        <div class="exercise-title">Practice Exercises</div>
+      </div>
+      <p class="exercise-desc">Solve all 6 exercises on hash table operations:</p>
+      <div style="margin-top: 16px;">
+        <a href="../exercises/hashing_exercises.html" class="resource-link">📝 Hash Table Exercises ↗</a>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-header">
+        <div class="exercise-num">04</div>
+        <div class="exercise-title">Previous Quizzes</div>
+      </div>
+      <table>
+        <thead><tr><th>Quiz</th><th>Version / Link</th><th>Solution</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Spring 2024</td>
+            <td>
+              <a href="https://drive.google.com/file/d/1oH-VdAmpE25kuJrlwqEl5TPdkB61hPbn/view?usp=sharing" target="_blank" rel="noopener">V1 ↗</a> &nbsp;
+              <a href="https://drive.google.com/file/d/1B8ZgQDJUyUvUXNhJEAEUbj9r7nEWieQv/view?usp=sharing" target="_blank" rel="noopener">V2 ↗</a> &nbsp;
+              <a href="https://drive.google.com/file/d/1ss2c0LAm5NByE3d5pOvbB0BdOwUwIBmQ/view?usp=sharing" target="_blank" rel="noopener">V3 ↗</a>
+            </td>
+            <td>—</td>
+          </tr>
+          <tr><td>Spring 2023</td><td><a href="https://drive.google.com/file/d/1E9x_J99ty3ANBWLesOKMOv_7YPZrYYP3/view?usp=sharing" target="_blank" rel="noopener">Open ↗</a></td><td>—</td></tr>
+          <tr><td>Spring 2022</td><td><a href="https://drive.google.com/file/d/1hYRHIG0DVBMOqLZ0Uz6I13abt2Gx41Np/view?usp=sharing" target="_blank" rel="noopener">Open ↗</a></td><td><a href="https://drive.google.com/file/d/1o3nelIrRtZVeyyn-gCP0vDypc5PCkdV7/view?usp=sharing" target="_blank" rel="noopener">Solution ↗</a></td></tr>
+          <tr><td>Fall 2022</td><td><a href="https://drive.google.com/file/d/1h5AZYQmhHByPt-aDn3L7dd0ruNcx-1F9/view?usp=sharing" target="_blank" rel="noopener">Open ↗</a></td><td><a href="https://drive.google.com/file/d/1nuzN4j00amtq3kY7OBYWW4SmS-kfadFS/view?usp=sharing" target="_blank" rel="noopener">Solution ↗</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-header">
+        <div class="exercise-num">05</div>
+        <div class="exercise-title">Recent Previous Exams</div>
+      </div>
+      <table>
+        <thead><tr><th>Exam</th><th>Question</th></tr></thead>
+        <tbody>
+          <tr><td>Final Exam – Spring 2024</td><td><a href="https://drive.google.com/file/d/1t-8ksGqoDyUqZObUttzNpwtTlGbkyuCA/view?usp=sharing" target="_blank" rel="noopener">Question 5 ↗</a></td></tr>
+          <tr><td>Final Exam – Spring 2022</td><td><a href="https://drive.google.com/file/d/1fDMaAQVWAao2sVxTA-YpLZpCRLkpmlyK/view?usp=sharing" target="_blank" rel="noopener">Question 3 ↗</a></td></tr>
+          <tr><td>Final Exam – Fall 2021</td><td><a href="https://drive.google.com/file/d/1tjQJ4rxh3BNF0yc0lvceFv3DuwS_XAdX/view?usp=sharing" target="_blank" rel="noopener">Question 3 ↗</a></td></tr>
+          <tr><td>Final Exam – Spring 2016</td><td><a href="https://docs.google.com/document/d/1I78yeQT96KixfW1wt7lDs4JmdTYzrPoU/edit?usp=sharing&ouid=110789104378877559009&rtpof=true&sd=true" target="_blank" rel="noopener">Question 3 ↗</a></td></tr>
+          <tr><td>Final Exam – Spring 2015</td><td><a href="https://docs.google.com/document/d/11ih6C_KjqXGQR17dkYJ_3bFaNy53kdKQ/edit?usp=sharing&ouid=110789104378877559009&rtpof=true&sd=true" target="_blank" rel="noopener">Question 4 ↗</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-header">
+        <div class="exercise-num">06</div>
+        <div class="exercise-title">Old Previous Exams</div>
+      </div>
+      <div style="margin-top: 16px;">
+        <a href="https://drive.google.com/drive/folders/1O3Zc8d6lGQAHaLSvcWwgWqyIYWB_boBn" target="_blank" rel="noopener" class="resource-link">📂 Old Exam Archive ↗</a>
+      </div>
+    </div>
+
+    <div class="divider">✦ · ✦ · ✦</div>
+
+  </div>
+
+  <footer class="page-footer">
+    <span>Hashing Study Guide · CS11212 · PSUT</span>
+    <a href="../index.html">← Back to Main Site</a>
+  </footer>
+
+  <style>
+    .resource-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      background: var(--accent-pale);
+      border: 1.5px solid var(--accent);
+      color: var(--accent);
+      text-decoration: none;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+    .resource-link:hover { background: var(--accent); color: var(--paper); }
+    table a { color: var(--accent); }
+  </style>
+
+  <script src="../shared.js"></script>
+</body>
+</html>

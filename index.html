@@ -1,0 +1,2054 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Structures & Algorithms — CS11212</title>
+  <meta name="description" content="A comprehensive interactive study guide and resource hub for PSUT's Data Structures and Introduction to Algorithms course." />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+  <style>
+    /* ── LIGHT THEME (parchment cream + royal blue) ── */
+    :root {
+      --paper: #f4f1eb;
+      --paper2: #eae6dd;
+      --ink: #1b1f3a;
+      --ink2: #2e3460;
+      --muted: #7a7f9a;
+      --rust: #2a52be;
+      --rust-light: #b4c4f0;
+      --rust-pale: #e8edf9;
+      --border: #c5c9de;
+      --code-bg: #0d1117;
+      --code-text: #c9d1d9;
+      --code-ln: #484f58;
+      --code-kw: #ff7b72;
+      --code-st: #a5d6a7;
+      --code-nu: #ffa657;
+      --code-fn: #79c0ff;
+      --code-cm: #8b949e;
+      --code-pp: #d2a8ff;
+    }
+
+    /* ── DARK THEME (deep navy + electric cyan) ── */
+    html.dark {
+      --paper: #0d1b2a;
+      --paper2: #112240;
+      --ink: #ccd6f6;
+      --ink2: #a8b2d8;
+      --muted: #637aad;
+      --rust: #64ffda;
+      --rust-light: #1d3d5c;
+      --rust-pale: #0a192f;
+      --border: #1e3a5f;
+      --code-bg: #060f1a;
+      --code-text: #ccd6f6;
+      --code-ln: #334166;
+      --code-kw: #ff79c6;
+      --code-st: #50fa7b;
+      --code-nu: #ffb86c;
+      --code-fn: #64dfdf;
+      --code-cm: #6272a4;
+      --code-pp: #bd93f9;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 17px;
+      line-height: 1.7;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("https://www.transparenttextures.com/patterns/p6.png");
+      opacity: 0.15;
+      pointer-events: none;
+      z-index: 2000;
+    }
+
+    .bg-symbols {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .bg-sym {
+      position: absolute;
+      color: var(--rust);
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 500;
+      opacity: 0.05;
+      user-select: none;
+      animation: floatAround 60s linear infinite;
+    }
+
+    @keyframes floatAround {
+      0% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+      25% {
+        transform: translate(50px, 100px) rotate(90deg);
+      }
+      50% {
+        transform: translate(100px, 50px) rotate(180deg);
+      }
+      75% {
+        transform: translate(50px, -50px) rotate(270deg);
+      }
+      100% {
+        transform: translate(0, 0) rotate(360deg);
+      }
+    }
+
+    .masthead {
+      border-bottom: 3px double var(--ink);
+      padding: 0 48px;
+      background: var(--paper);
+    }
+
+    .masthead-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 0 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .masthead-kicker,
+    .masthead-issue {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .masthead-title {
+      text-align: center;
+      padding: 20px 0 16px;
+    }
+
+    .masthead-title h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(32px, 5.5vw, 62px);
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1.1;
+      color: var(--ink);
+    }
+
+    .masthead-title h1 em {
+      font-style: italic;
+      color: var(--rust);
+    }
+
+    .masthead-title .subtitle {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+
+    .nav-strip {
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .nav-strip::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nav-btn {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink2);
+      padding: 13px 18px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-right: 1px solid var(--border);
+      white-space: nowrap;
+      transition: all 0.2s;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .nav-btn:first-child {
+      border-left: 1px solid var(--border);
+    }
+
+    .nav-btn:hover {
+      background: var(--rust-pale);
+      color: var(--rust);
+    }
+
+    .nav-btn.active {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .page {
+      display: none;
+      animation: pgIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes pgIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px)
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    @keyframes entryUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px)
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    /* HOME */
+    .home-grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      min-height: calc(100vh - 190px);
+    }
+
+    .home-main {
+      padding: 56px 56px 56px 48px;
+      border-right: 1px solid var(--border);
+    }
+
+    .home-side {
+      padding: 40px 36px;
+      background: var(--paper2);
+    }
+
+    .home-lede {
+      font-size: 20px;
+      line-height: 1.6;
+      font-weight: 300;
+      margin-bottom: 28px;
+      color: var(--ink2);
+      max-width: 600px;
+    }
+
+    .home-lede::first-letter {
+      font-family: 'Playfair Display', serif;
+      font-size: 5em;
+      font-weight: 900;
+      float: left;
+      line-height: 0.72;
+      margin-right: 8px;
+      margin-top: 10px;
+      color: var(--rust);
+    }
+
+    .ornament {
+      text-align: center;
+      color: var(--rust);
+      font-size: 18px;
+      letter-spacing: 12px;
+      margin: 28px 0;
+      opacity: 0.55;
+    }
+
+    .section-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin-bottom: 14px;
+    }
+
+    .topic-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-bottom: 36px;
+    }
+
+    .topic-cell {
+      background: var(--paper);
+      padding: 20px 22px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      opacity: 0;
+    }
+
+    .page.active .topic-cell {
+      animation: entryUp 0.6s ease both;
+    }
+
+    .topic-cell:hover {
+      background: var(--paper2);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+      border-color: var(--rust);
+      z-index: 2;
+    }
+
+    .topic-cell:nth-child(1) { animation-delay: 0.05s; }
+    .topic-cell:nth-child(2) { animation-delay: 0.1s; }
+    .topic-cell:nth-child(3) { animation-delay: 0.15s; }
+    .topic-cell:nth-child(4) { animation-delay: 0.2s; }
+    .topic-cell:nth-child(5) { animation-delay: 0.25s; }
+    .topic-cell:nth-child(6) { animation-delay: 0.3s; }
+    .topic-cell:nth-child(7) { animation-delay: 0.35s; }
+
+    .t-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: var(--rust);
+      margin-bottom: 3px;
+    }
+
+    .t-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .t-desc {
+      font-size: 13px;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .how-step {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 14px;
+      font-size: 14.5px;
+      color: var(--ink2);
+      line-height: 1.5;
+    }
+
+    .sc {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1.5px solid var(--rust);
+      color: var(--rust);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    .s-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--rust);
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 12px;
+    }
+
+    .s-links {
+      list-style: none;
+    }
+
+    .s-links li {
+      margin-bottom: 9px;
+    }
+
+    .s-links a {
+      color: var(--ink2);
+      text-decoration: none;
+      font-size: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      line-height: 1.4;
+      transition: color 0.15s;
+    }
+
+    .s-links a:hover {
+      color: var(--rust);
+    }
+
+    .s-links a::before {
+      content: '→';
+      color: var(--rust);
+      flex-shrink: 0;
+    }
+
+    .s-sec {
+      margin-bottom: 28px;
+    }
+
+    /* INNER */
+    .inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 52px 48px;
+    }
+
+    .pg-head {
+      margin-bottom: 36px;
+      padding-bottom: 24px;
+      border-bottom: 2px solid var(--ink);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .pg-cat {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin-bottom: 8px;
+    }
+
+    .pg-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(26px, 4vw, 46px);
+      font-weight: 900;
+      letter-spacing: -1px;
+      line-height: 1.05;
+    }
+
+    .pg-by {
+      font-style: italic;
+      color: var(--muted);
+      font-size: 15px;
+      margin-top: 5px;
+    }
+
+    .pg-icon {
+      font-size: 52px;
+      opacity: 0.75;
+      flex-shrink: 0;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 44px;
+    }
+
+    .study-step {
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 16px;
+      margin-bottom: 22px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .study-step:last-child {
+      border-bottom: none;
+    }
+
+    .sn {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--rust);
+      line-height: 1;
+      padding-top: 3px;
+    }
+
+    .st-title {
+      font-family: 'Crimson Pro', serif;
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 7px;
+    }
+
+    .st-text {
+      font-size: 15px;
+      color: var(--ink2);
+      margin-bottom: 10px;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 11px;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      font-size: 12px;
+      font-family: 'IBM Plex Mono', monospace;
+      color: var(--ink2);
+      text-decoration: none;
+      background: var(--paper);
+      transition: all 0.15s;
+      cursor: pointer;
+    }
+
+    .chip:hover {
+      background: var(--rust);
+      color: var(--paper);
+      border-color: var(--rust);
+    }
+
+    .pull {
+      border-left: 4px solid var(--rust);
+      padding: 12px 18px;
+      margin: 20px 0;
+      background: var(--rust-pale);
+      font-style: italic;
+      font-size: 15px;
+      color: var(--ink2);
+    }
+
+    .pull a {
+      color: var(--rust);
+    }
+
+    .sbox {
+      background: var(--paper2);
+      border: 1px solid var(--border);
+      padding: 22px;
+      margin-bottom: 20px;
+    }
+
+    .sbox-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sbox ul {
+      list-style: none;
+    }
+
+    .sbox ul li {
+      margin-bottom: 7px;
+      font-size: 13.5px;
+    }
+
+    .sbox ul li strong {
+      color: var(--rust);
+    }
+
+    /* CODE */
+    .code-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px;
+    }
+
+    .file-tabs {
+      display: flex;
+      gap: 2px;
+      flex-wrap: wrap;
+      margin-bottom: 0;
+    }
+
+    .ftab {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      padding: 8px 13px;
+      background: var(--paper2);
+      border: 1px solid var(--border);
+      border-bottom: none;
+      cursor: pointer;
+      color: var(--muted);
+      transition: all 0.15s;
+      border-radius: 3px 3px 0 0;
+    }
+
+    .ftab:hover {
+      color: var(--ink);
+    }
+
+    .ftab.active {
+      background: var(--code-bg);
+      color: #e8c06e;
+      border-color: var(--code-bg);
+    }
+
+    .editor {
+      background: var(--code-bg);
+      border: 1px solid #3a3530;
+      border-radius: 0 4px 4px 4px;
+      overflow: hidden;
+    }
+
+    .ebar {
+      background: #2a2520;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #3a3530;
+    }
+
+    .edots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .ed {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+    }
+
+    .ed-r { background: #ff5f57; }
+    .ed-y { background: #febc2e; }
+    .ed-g { background: #28c840; }
+
+    .efname {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: #8a7f6a;
+    }
+
+    .copybtn {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      padding: 4px 12px;
+      background: transparent;
+      border: 1px solid #3a3530;
+      color: #8a7f6a;
+      cursor: pointer;
+      border-radius: 3px;
+      transition: all 0.15s;
+    }
+
+    .copybtn:hover {
+      color: #e8c06e;
+      border-color: #e8c06e;
+    }
+
+    pre#cv {
+      padding: 0;
+      overflow-x: auto;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12.5px;
+      line-height: 1.75;
+      color: var(--code-text);
+      max-height: 580px;
+      scrollbar-width: thin;
+      scrollbar-color: #3a3530 transparent;
+      display: grid;
+    }
+
+    .line {
+      display: flex;
+      min-width: fit-content;
+    }
+
+    .line:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .ln {
+      width: 44px;
+      text-align: right;
+      padding-right: 16px;
+      color: var(--code-ln);
+      user-select: none;
+      border-right: 1px solid #3a3530;
+      background: #2a2520;
+      flex-shrink: 0;
+    }
+
+    .lc {
+      padding-left: 16px;
+      white-space: pre;
+      flex-grow: 1;
+    }
+
+    /* SYNTAX HIGHLIGHTING CLASSES */
+    .kw { color: var(--code-kw); font-weight: 500; }
+    .cm { color: var(--code-cm); font-style: italic; }
+    .st { color: var(--code-st); }
+    .pp { color: var(--code-pp); }
+    .nu { color: var(--code-nu); }
+    .fn { color: var(--code-fn); }
+
+    /* QUIZZES */
+    .qgrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-bottom: 36px;
+    }
+
+    .qcard {
+      background: var(--paper);
+      padding: 26px;
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      opacity: 0;
+    }
+
+    .page.active .qcard {
+      animation: entryUp 0.6s ease both;
+    }
+
+    .qcard:hover {
+      background: var(--paper2);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+      z-index: 2;
+    }
+
+    .qgrid .qcard:nth-child(1) { animation-delay: 0.03s; }
+    .qgrid .qcard:nth-child(2) { animation-delay: 0.06s; }
+    .qgrid .qcard:nth-child(3) { animation-delay: 0.09s; }
+    .qgrid .qcard:nth-child(4) { animation-delay: 0.12s; }
+    .qgrid .qcard:nth-child(5) { animation-delay: 0.15s; }
+    .qgrid .qcard:nth-child(6) { animation-delay: 0.18s; }
+
+    .q-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: var(--rust);
+      letter-spacing: 0.15em;
+      margin-bottom: 5px;
+    }
+
+    .q-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 19px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .qcard ul {
+      list-style: none;
+    }
+
+    .qcard ul li {
+      margin-bottom: 6px;
+    }
+
+    .qcard ul li a {
+      font-size: 14px;
+      color: var(--ink2);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.15s;
+    }
+
+    .qcard ul li a:hover {
+      color: var(--rust);
+    }
+
+    .qcard ul li a::before {
+      content: '→';
+      color: var(--rust);
+    }
+
+    /* LINKS */
+    .lcols {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-bottom: 36px;
+    }
+
+    .lcol {
+      background: var(--paper);
+      padding: 26px;
+    }
+
+    .lcol-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .lcol ul {
+      list-style: none;
+    }
+
+    .lcol ul li {
+      margin-bottom: 9px;
+    }
+
+    .lcol ul li a {
+      font-size: 14px;
+      color: var(--ink2);
+      text-decoration: none;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      line-height: 1.4;
+      transition: color 0.15s;
+    }
+
+    .lcol ul li a:hover {
+      color: var(--rust);
+    }
+
+    .lcol ul li a::before {
+      content: '→';
+      color: var(--rust);
+      flex-shrink: 0;
+    }
+
+    footer {
+      border-top: 3px double var(--ink);
+      padding: 22px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--paper2);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      margin-top: 40px;
+    }
+
+    footer a {
+      color: var(--rust);
+      text-decoration: none;
+    }
+
+    /* TRACING TABLE */
+    .tracing-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13.5px;
+    }
+
+    .tracing-table th, .tracing-table td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+    }
+
+    .tracing-table th {
+      background: var(--paper2);
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    /* THEME TOGGLE */
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--rust-pale);
+      border: 1.5px solid var(--border);
+      border-radius: 999px;
+      padding: 5px 14px 5px 8px;
+      cursor: pointer;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--ink2);
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: all 0.25s ease;
+    }
+
+    .theme-toggle:hover {
+      background: var(--rust);
+      color: var(--paper);
+      border-color: var(--rust);
+    }
+
+    .toggle-track {
+      width: 34px;
+      height: 18px;
+      background: var(--border);
+      border-radius: 999px;
+      position: relative;
+      transition: background 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    html.dark .toggle-track {
+      background: var(--rust);
+    }
+
+    .toggle-thumb {
+      width: 12px;
+      height: 12px;
+      background: var(--paper);
+      border-radius: 50%;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    }
+
+    html.dark .toggle-thumb {
+      transform: translateX(16px);
+    }
+
+    @media(max-width:900px) {
+      .masthead {
+        padding: 0 20px;
+      }
+      .home-grid {
+        grid-template-columns: 1fr;
+      }
+      .home-main {
+        padding: 36px 22px;
+      }
+      .home-side {
+        border-top: 1px solid var(--border);
+        padding: 28px 22px;
+      }
+      .topic-grid {
+        grid-template-columns: 1fr;
+      }
+      .inner {
+        padding: 36px 22px;
+      }
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+      .code-wrap {
+        padding: 28px 22px;
+      }
+      .lcols {
+        grid-template-columns: 1fr;
+      }
+      footer {
+        flex-direction: column;
+        gap: 6px;
+        text-align: center;
+        padding: 18px 22px;
+      }
+    }
+  </style>
+</head>
+
+<body onclick="void(0)">
+
+  <!-- Floating particles inside header and background -->
+  <div class="bg-symbols">
+    <div class="bg-sym" style="top:10%; left:5%; animation-duration:45s;">[ ]</div>
+    <div class="bg-sym" style="top:25%; left:85%; animation-duration:70s; font-size:40px;">*</div>
+    <div class="bg-sym" style="top:60%; left:15%; animation-duration:55s;">-&gt;</div>
+    <div class="bg-sym" style="top:80%; left:70%; animation-duration:80s;">O(n)</div>
+    <div class="bg-sym" style="top:40%; left:42%; animation-duration:65s; font-size:32px;">&amp;</div>
+    <div class="bg-sym" style="top:15%; left:60%; animation-duration:50s;">head</div>
+    <div class="bg-sym" style="top:70%; left:5%; animation-duration:75s;">root</div>
+    <div class="bg-sym" style="top:5%; left:45%; animation-duration:60s;">O(1)</div>
+  </div>
+
+  <header class="masthead">
+    <div class="masthead-top">
+      <span class="masthead-kicker">Princess Sumaya University for Technology</span>
+      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <div class="toggle-track"><div class="toggle-thumb"></div></div>
+        <span id="themeLabel">DARK</span>
+      </button>
+      <span class="masthead-issue">CS11212 · study portal</span>
+    </div>
+    <div class="masthead-title">
+      <h1>Data Structures <em>&amp; Intro to</em> Algorithms</h1>
+      <p class="subtitle">A Complete Study Guide &nbsp;·&nbsp; C++ &nbsp;·&nbsp; Pointers &nbsp;·&nbsp; Lists &nbsp;·&nbsp; Trees</p>
+    </div>
+    <nav>
+      <div class="nav-strip">
+        <button class="nav-btn active" onclick="nav('home',this)">Home</button>
+        <button class="nav-btn" onclick="nav('analysis',this)">Algorithm Analysis</button>
+        <button class="nav-btn" onclick="nav('sorting',this)">Searching &amp; Sorting</button>
+        <button class="nav-btn" onclick="nav('lists',this)">Linked Lists</button>
+        <button class="nav-btn" onclick="nav('stack_queue',this)">Stacks &amp; Queues</button>
+        <button class="nav-btn" onclick="nav('bst',this)">Binary Search Trees</button>
+        <button class="nav-btn" onclick="nav('hashing',this)">Hash Tables</button>
+        <button class="nav-btn" onclick="nav('stl',this)">C++ STL</button>
+        <button class="nav-btn" onclick="nav('code',this)">Code Files</button>
+        <button class="nav-btn" onclick="nav('quizzes',this)">Examination Hall</button>
+        <button class="nav-btn" onclick="nav('links',this)">All Links</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HOME PAGE -->
+  <div class="page active" id="page-home">
+    <div class="home-grid">
+      <div class="home-main">
+        <p class="home-lede">This guide covers everything you need for CS11212 — Data Structures and Introduction to Algorithms at PSUT. Written to consolidate all lecture materials, worksheets, source code templates, and exam solutions into a single interactive dashboard.</p>
+        <div class="ornament">✦ · ✦ · ✦</div>
+        <div class="section-tag">Topics Covered</div>
+        <div class="topic-grid">
+          <div class="topic-cell" onclick="nav('analysis',document.querySelectorAll('.nav-btn')[1])">
+            <div class="t-num">01 ·</div>
+            <div class="t-name">Algorithm Analysis</div>
+            <div class="t-desc">Big-O analysis, counting operations, math cheatsheet</div>
+          </div>
+          <div class="topic-cell" onclick="nav('sorting',document.querySelectorAll('.nav-btn')[2])">
+            <div class="t-num">02 ·</div>
+            <div class="t-name">Searching &amp; Sorting</div>
+            <div class="t-desc">Bubble Sort, Selection Sort, Insertion Sort, Binary Search</div>
+          </div>
+          <div class="topic-cell" onclick="nav('lists',document.querySelectorAll('.nav-btn')[3])">
+            <div class="t-num">03 ·</div>
+            <div class="t-name">Linked Lists</div>
+            <div class="t-desc">Singly-linked lists, doubly-linked lists, ordered lists</div>
+          </div>
+          <div class="topic-cell" onclick="nav('stack_queue',document.querySelectorAll('.nav-btn')[4])">
+            <div class="t-num">04 ·</div>
+            <div class="t-name">Stacks &amp; Queues</div>
+            <div class="t-desc">Array stacks, DLL queues, FIFO and LIFO structures</div>
+          </div>
+          <div class="topic-cell" onclick="nav('bst',document.querySelectorAll('.nav-btn')[5])">
+            <div class="t-num">05 ·</div>
+            <div class="t-name">Binary Search Trees</div>
+            <div class="t-desc">BST properties, insertions, deletions, traversals</div>
+          </div>
+          <div class="topic-cell" onclick="nav('hashing',document.querySelectorAll('.nav-btn')[6])">
+            <div class="t-num">06 ·</div>
+            <div class="t-name">Hash Tables</div>
+            <div class="t-desc">Hashing functions, open addressing, chaining</div>
+          </div>
+          <div class="topic-cell" onclick="nav('stl',document.querySelectorAll('.nav-btn')[7])">
+            <div class="t-num">07 ·</div>
+            <div class="t-name">C++ STL</div>
+            <div class="t-desc">Standard Template Library containers, range loops, complexities</div>
+          </div>
+        </div>
+        <div class="ornament">✦ · ✦ · ✦</div>
+        <div class="section-tag">Recommended Study Order</div>
+        <div class="how-step">
+          <div class="sc">1</div>
+          <div><strong>Review the lecture slides</strong> — starting with Dr. Ibrahim Albluwi's curriculum slides linked under each topic guide.</div>
+        </div>
+        <div class="how-step">
+          <div class="sc">2</div>
+          <div><strong>Study the Code Files</strong> — read and write the core data structure classes (linked lists, BST, queues, hashing) from the code tab.</div>
+        </div>
+        <div class="how-step">
+          <div class="sc">3</div>
+          <div><strong>Practice with Worksheets</strong> — solve exercise sheets (sorting worksheets, BST exercises, linked list exercises) step-by-step.</div>
+        </div>
+        <div class="how-step">
+          <div class="sc">4</div>
+          <div><strong>Solve past exams</strong> — visit the Examination Hall, practice under exam conditions, and crosscheck solutions.</div>
+        </div>
+      </div>
+      <div class="home-side">
+        <div class="s-sec">
+          <div class="s-label">Quick Links</div>
+          <ul class="s-links">
+            <li><a href="https://drive.google.com/drive/folders/1pKm5KkEsBfC2UWBvvBaGgbt0QvtU3NaP" target="_blank">Lecture Slides Drive</a></li>
+            <li><a href="https://drive.google.com/drive/folders/13e8MXoUnqkpg67tQXuThBoEF4IC6nV85" target="_blank">Previous Exams Drive</a></li>
+            <li><a href="https://tiny-papyrus-3bc.notion.site/11212-Data-Structures-and-Introduction-to-Algorithms-8429dc92832d460fa82fa21278baa911?pvs=4" target="_blank">Notion Summary (Qabas Ahmad)</a></li>
+            <li><a href="https://github.com/ialbluwi/psut-data-structures" target="_blank">Original GitHub Repo</a></li>
+            <li><a href="https://drive.google.com/file/d/197IIsUG1I_Ys1rFXhi1l6QRuLahQwDoh" target="_blank">Math Cheatsheet (PDF)</a></li>
+          </ul>
+        </div>
+        <div class="s-sec">
+          <div class="s-label">Core Implementations</div>
+          <ul class="s-links">
+            <li><a href="#" onclick="nav('code',document.querySelectorAll('.nav-btn')[8]);ct('sll_comments');return false;">Singly Linked List</a></li>
+            <li><a href="#" onclick="nav('code',document.querySelectorAll('.nav-btn')[8]);ct('dll_comments');return false;">Doubly Linked List</a></li>
+            <li><a href="#" onclick="nav('code',document.querySelectorAll('.nav-btn')[8]);ct('ordered_dll');return false;">Ordered Doubly List</a></li>
+            <li><a href="#" onclick="nav('code',document.querySelectorAll('.nav-btn')[8]);ct('bst');return false;">Binary Search Tree</a></li>
+            <li><a href="#" onclick="nav('code',document.querySelectorAll('.nav-btn')[8]);ct('hash_table');return false;">Hash Table</a></li>
+          </ul>
+        </div>
+        <div class="s-sec">
+          <div class="s-label">Worksheet Sheets</div>
+          <ul class="s-links">
+            <li><a href="https://docs.google.com/document/d/1PFK_hDCkCq92s5yjkQOvukkTaA7aT17UYLYRUld4yjA" target="_blank">Selection Sort Sheet</a></li>
+            <li><a href="https://docs.google.com/document/d/1KrBXubdPcXwfFM3R88OirCDm2pHZb0ff3Qyj6GUfdBQ" target="_blank">Bubble Sort Sheet</a></li>
+            <li><a href="https://docs.google.com/document/d/19JQzSO_Lo37xYBLKE1lRYr2Jll_l1Pr_Nx34-lS-lsc" target="_blank">Insertion Sort Sheet</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALGORITHM ANALYSIS -->
+  <div class="page" id="page-analysis">
+    <div class="inner">
+      <div class="pg-head">
+        <div>
+          <div class="pg-cat">Study Guide · 01</div>
+          <h2 class="pg-title">Algorithm Analysis</h2>
+          <p class="pg-by">Big-O complexity, counting operations, and growth of functions</p>
+        </div>
+        <div class="pg-icon">📈</div>
+      </div>
+      <div class="two-col">
+        <div>
+          <div class="study-step">
+            <div class="sn">1</div>
+            <div>
+              <div class="st-title">Curriculum Slides &amp; Cheatsheets</div>
+              <p class="st-text">Study the definition of Big-O, asymptotic notation, and standard growth curves.</p>
+              <div class="chips">
+                <a class="chip" href="https://drive.google.com/file/d/17l0dOvNT5tSNCrhB0xFHg-RQ6hcttQU-" target="_blank">📄 Analysis Slides</a>
+                <a class="chip" href="https://drive.google.com/file/d/197IIsUG1I_Ys1rFXhi1l6QRuLahQwDoh" target="_blank">📄 Math Cheatsheet (PDF)</a>
+              </div>
+            </div>
+          </div>
+          <div class="study-step">
+            <div class="sn">2</div>
+            <div>
+              <div class="st-title">Practice Worksheets</div>
+              <p class="st-text">Solve the primary worksheet containing trace tables, loop analysis, and math summations.</p>
+              <div class="chips">
+                <a class="chip" href="https://drive.google.com/file/d/13y1PejyoEpSdo5xig_6Pmy9lClzZpfBu" target="_blank">📝 Analysis Exercises</a>
+              </div>
+            </div>
+          </div>
+          <div class="study-step">
+            <div class="sn">3</div>
+            <div>
+              <div class="st-title">Past Quizzes</div>
+              <div class="chips">
+                <a class="chip" href="https://drive.google.com/file/d/15KJRlGxRWHOZtGiXPAuvhYFbnvDbG9Lg/view" target="_blank">📝 Spring 23 Q1 (v1)</a>
+                <a class="chip" href="https://drive.google.com/file/d/1d-7KF36tC0--v9uXJL3Z8exTb2hylnwi/view" target="_blank">🔑 Solution v1</a>
+                <a class="chip" href="https://drive.google.com/file/d/1GqrOIUzCFKiLfSmxhxOaZWy8F7DV5Gnv/view" target="_blank">📝 Spring 23 Q1 (v2)</a>
+                <a class="chip" href="https://drive.google.com/file/d/1KjnxMsh_srmJ2uewSbaEO1dF9DxqUEST/view" target="_blank">🔑 Solution v2</a>
+                <a class="chip" href="https://drive.google.com/file/d/1hTrWPT-yTUpzOsLdYCqze48ANMASggBC/view" target="_blank">📝 Spring 23 Q1 (v3)</a>
+                <a class="chip" href="https://drive.google.com/file/d/1VGoGhKxJRs6gDwiuz7e0_3VtUOj8G98R/view" target="_blank">🔑 Solution v3</a>
+              </div>
+              <div class="chips" style="margin-top:8px;">
+                <a class="chip" href="https://drive.google.com/file/d/1GM1v2eFKnOmzaXQCNL968Zk-ku6B5Vjk/view" target="_blank">📝 Spring 22 Q1</a>
+                <a class="chip" href="https://drive.google.com/file/d/1qBTcIUQmuqfRNnEq6uMUwDQGvdfVuno6/view" target="_blank">🔑 Solution</a>
+                <a class="chip" href="https://drive.google.com/file/d/14rF4Ja6LeNZg_vgWpnZ30KN852PIBEX5/view" target="_blank">📝 Fall 22 Q1 (v1)</a>
+                <a class="chip" href="https://drive.google.com/file/d/1WD4ZacXnSZYIoc5jkKE_OQPstLt_QaLK/view" target="_blank">🔑 Solution v1</a>
+                <a class="chip" href="https://drive.google.com/file/d/1xRFps2EfcCu3MvXYEy96Su1ArUvCf9sA/view" target="_blank">📝 Fall 22 Q1 (v2)</a>
+                <a class="chip" href="https://drive.google.com/file/d/1-iu5Qf7H4Ak5_v9F4OaoTuQNfMqC1xpz/view" target="_blank">🔑 Solution v2</a>
+              </div>
+            </div>
+          </div>
+          <div class="study-step">
+            <div class="sn">4</div>
+            <div>
+              <div class="st-title">Midterm Questions</div>
+              <div class="chips">
+                <a class="chip" href="https://drive.google.com/file/d/1vpR-ErE-rOogbdpeoj2gxU0xqG5B2XXE/view" target="_blank">🔑 Spring 24 Mid — Q1</a>
+                <a class="chip" href="https://drive.google.com/file/d/1ZDBgEq_-6c9EE40-BJ28IVPCliq64qQ5/view" target="_blank">📝 Fall 23 Mid — Q4</a>
+                <a class="chip" href="https://drive.google.com/file/d/1KQOtgiGkMRCtZ1UREmBnkSfM-7TsYXEb/view" target="_blank">🔑 Solution</a>
+                <a class="chip" href="https://drive.google.com/file/d/1nJui0DRtQ-2B6baLzgz5yASaCvtnL9eT/view" target="_blank">📝 Fall 22 First — Q1</a>
+                <a class="chip" href="https://drive.google.com/file/d/14YsAGziZOqFDc40crCYj0pAkfAUY9wMb/view" target="_blank">🔑 Solution</a>
+                <a class="chip" href="https://drive.google.com/file/d/1-f3Cn9s9qJGn0LVN4a268UyDiBexRouo/view" target="_blank">🔑 Spring 22 First — Q1</a>
+                <a class="chip" href="https://drive.google.com/file/d/1dAMSwZIaUHxgv95D3pNuzg9Qh0bcr_UY/view" target="_blank">📝 Fall 21 Mid — Q1</a>
+                <a class="chip" href="https://drive.google.com/file/d/1JJMzZyC2iNYfi3XsEUYSThoFLZ-pvitw/view" target="_blank">🔑 Solution</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="sbox">
+            <div class="sbox-title">Key Core Concepts</div>
+            <ul>
+              <li><strong>O(1)</strong> Constant time (independent of input size)</li>
+              <li><strong>O(log n)</strong> Logarithmic time (binary search, BST heights)</li>
+              <li><strong>O(n)</strong> Linear time (single loops, list scans)</li>
+              <li><strong>O(n log n)</strong> Linearithmic time (heapsort, mergesort)</li>
+              <li><strong>O(n²)</strong> Quadratic time (nested loops, bubble sort)</li>
+            </ul>
+          </div>
+          <div class="pull">Need more exercises? Try checking the <a href="https://docs.google.com/document/d/1Eln96RuMHlePVwB3BgCIuSqlLDhR6-mvYqqlHxKpGcU/edit" target="_blank">Old Exams document</a> or check out student-generated answers in <a href="https://drive.google.com/drive/folders/1AZDzDTIBJIAKXb6o5SgMXMBceJcVp0gd" target="_blank">this folder</a>.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEARCHING & SORTING -->
+  <div class="page" id="page-sorting">
+    <div class="inner">
+      <div class="pg-head">
+        <div>
+          <div class="pg-cat">Study Guide · 02</div>
+          <h2 class="pg-title">Searching &amp; Sorting</h2>
+          <p class="pg-by">Linear &amp; Binary Search, Selection Sort, Bubble Sort, and Insertion Sort</p>
+        </div>
+        <div class="pg-icon">⚡</div>
+      </div>
+      <div class="two-col">
+        <div>
+          <div class="study-step">
+            <div class="sn">1</div>
+            <div>
+              <div class="st-title">Slides &amp; Video Explanations</div>
+              <div class="chips">
+                <a class="chip" href="https://drive.google.com/file/d/1WdVifS5IhyhjgKRHumf9fUw5mwC1TDJU" target="_blank">📄 Search Slides</a>
+                <a class="chip" href="https://drive.google.com/file/d/12xXSnvu9KP7n1QAiNO4nKslAr0Myv6A9/" target="_blank">📄 Sorting Slides (Full)</a>
+                <a class="chip" href="https://drive.google.com/file/d/1e_VIPMUpYJxKL6tvSRhS9tet9tsTeDUQ/view?usp=sharing" target="_blank">📄 Sorting Slides (Short)</a>
+                <a class="chip" href="https://drive.google.com/file/d/1VNFGeoSQi04xGBRpS6mXdLk_Ktgw8mdE/view?usp=share_link" target="_blank">▶ Advanced Exercises Explanations</a>
+              </div>
+            </div>
+          </div>
+          <div class="study-step">
+            <div class="sn">2</div>
+            <div>
+              <div class="st-title">Worksheets &amp; Detailed Solutions</div>
+              <div class="chips">
+                <a class="chip" href="https://docs.google.com/document/d/1PFK_hDCkCq92s5yjkQOvukkTaA7aT17UYLYRUld4yjA" target="_blank">📝 Selection Sort Exercises</a>
+                <a class="chip" href="https://docs.google.com/document/d/1iVeF7Xrv6psQvEpvfhsJnshfqeOiHm0b6o7q8unvszw" target="_blank">🔑 Solution</a>
+                <a class="chip" href="https://docs.google.com/document/d/1KrBXubdPcXwfFM3R88OirCDm2pHZb0ff3Qyj6GUfdBQ" target="_blank">📝 Bubble Sort Exercises</a>
+                <a class="chip" href="https://docs.google.com/document/d/1woKyVhQ65CvYBTjLVt5hzTZfMSNOLB7Pfz1e6Hg9L3Q" target="_blank">🔑 Solution</a>
+                <a class="chip" href="https://docs.google.com/document/d/19JQzSO_Lo37xYBLKE1lRYr2Jll_l1Pr_Nx34-lS-lsc" target="_blank">📝 Insertion Sort Exercises</a>
+                <a class="chip" href="https://docs.google.com/document/d/1ZhTBS8dUuZe404gel1JzQ3Q-hZDEECo_IU1pS9DJanQ" target="_blank">🔑 Solution</a>
+              </div>
+            </div>
+          </div>
+          <div class="study-step">
+            <div class="sn">3</div>
+            <div>
+              <div class="st-title">Practice Trace Exercise</div>
+              <p class="st-text">Trace the exact count of operations (Swaps and Data Compares - DCs). AssumeBubble Sort uses a swapped flag and Selection Sort avoids self-swapping.</p>
+              <table class="tracing-table">
+                <thead>
+                  <tr>
+                    <th>Input</th>
+                    <th>Selection Sort</th>
+                    <th>Insertion Sort</th>
+                    <th>Bubble Sort</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>1 2 3 4 5</code></td>
+                    <td>Swaps = 0, DCs = 10</td>
+                    <td>Shifts = 0, DCs = 4</td>
+                    <td>Swaps = 0, DCs = 4</td>
+                  </tr>
+                  <tr>
+                    <td><code>5 4 3 2 1</code></td>
+                    <td>Swaps = 2, DCs = 10</td>
+                    <td>Shifts = 10, DCs = 10</td>
+                    <td>Swaps = 10, DCs = 10</td>
+                  </tr>
+                  <tr>
+                    <td><code>5 1 2 3 4</code></td>
+                    <td>Swaps = 4, DCs = 10</td>
+                    <td>Shifts = 4, DCs = 8</td>
+                    <td>Swaps = 4, DCs = 7</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="study-step">
+            <div class="sn">4</div>
+            <div>
+              <div class="st-title">Previous Exam Traces</div>
+              <div class="chips">
+                <a class="chip" href="https://drive.google.com/file/d/1dAMSwZIaUHxgv95D3pNuzg9Qh0bcr_UY/view" target="_blank">📝 Fall 21 Mid — Q4</a>
+                <a class="chip" href="https://drive.google.com/file/d/1JJMzZyC2iNYfi3XsEUYSThoFLZ-pvitw/view" target="_blank">🔑 Solution</a>
+                <a class="chip" href="https://drive.google.com/file/d/1nJui0DRtQ-2B6baLzgz5yASaCvtnL9eT/view" target="_blank">📝 Fall 22 First — Q2</a>
+                <a class="chip" href="https://drive.google.com/file/d/14YsAGziZOqFDc40crCYj0pAkfAUY9wMb/view" target="_blank">🔑 Solution</a>
+                <a class="chip" href="https://drive.google.com/file/d/1-f3Cn9s9qJGn0LVN4a268UyDiBexRouo/view" target="_blank">🔑 Spring 22 First — Q2</a>
+                <a class="chip" href="https://drive.google.com/file/d/1iENXZOOyi0rZC3YnYxOJaBAHn1ZHYv1o" target="_blank">📝 Spring 23 First — Q2/4</a>
+                <a class="chip" href="https://drive.google.com/file/d/1ctxDT7qqOfYFqHQTBdwMZvBNwVyC3EMe" target="_blank">🔑 Solution</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="sbox">
+            <div class="sbox-title">Complexity Reference</div>
+            <ul>
+              <li><strong>Selection Sort</strong><br/>Worst/Best: O(n²) comparisons, O(n) swaps.</li>
+              <li><strong>Insertion Sort</strong><br/>Best: O(n) comparisons, worst: O(n²).</li>
+              <li><strong>Bubble Sort</strong><br/>Best: O(n) checks (sorted), worst: O(n²).</li>
+              <li><strong>Binary Search</strong><br/>Worst: O(log n), Best: O(1). Array must be sorted!</li>
+            </ul>
+          </div>
+          <div class="pull">For extra questions, look at the <a href="https://docs.google.com/document/d/17SfDcoqVTrXCOfDPthRuwgHJCGsZWg3NGwCRDc56Vh8" target="_blank">Old Exams document</a>.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LINKED LISTS -->
+  <div class="page" id="page-lists">
+    <div class="inner">
+      <div class="pg-head">
+        <div>
+          <div class="pg-cat">Study Guide · 03</div>
+          <h2 class="pg-title">Linked Lists</h2>
+          <p class="pg-by">Singly-linked lists (SLL) and Doubly-linked lists (DLL)</p>
+        </div>
+        <div class="pg-icon">🔗</div>
+      </div>
+      <div class="two-col">
+        <div>
+          <div class="study-step">
+            <div class="sn">1</div>
+            <div>
+              <div class="st-title">Core Implementation Files</div>
+              <p class="st-text">Ensure you can write the full implementations of Single and Doubly lists from scratch. Pay careful attention to boundary conditions (empty list, single element, inserts at head/tail).</p>
+              <div class="chips">
+                <span class="chip" onclick="nav('code',document.querySelectorAll('.nav-btn')[8]);ct('sll_comments')">💻 Singly List class</span>
+                <span class="chip" onclick="nav('code',document.querySelectorAll('.nav-btn')[8]);ct('dll_comments')">💻 Doubly List class</span>
+                <span class="chip" onclick="nav('code',document.querySelectorAll('.nav-btn')[8]);ct('ordered_dll')">💻 Ordered DLL class</span>
+              </div>
+            </div>
+          </div>
+          <div class="study-step">
+            <div class="sn">2</div>
+            <div>
+              <div class="st-title">Programming Worksheets</div>
+              <p class="st-text">Practice solving Linked List programming questions (exercises 1-14). These are critical for midterms and finals.</p>
+              <div class="chips">
+                <a class="chip" href="exercises/list_exercises.html">📝 List Exercises (14 problems)</a>
+              </div>
+            </div>
+          </div>
+          <div class="study-step">
+            <div class="sn">3</div>
+            <div>
+              <div class="st-title">Singly List Exam Questions</div>
+              <div class="chips">
+                <a class="chip" href="https://drive.google.com/file/d/1iENXZOOyi0rZC3YnYxOJaBAHn1ZHYv1o/view" target="_blank">📝 Spring 23 First — Q3</a>
+                <a class="chip" href="https://drive.google.com/file/d/14YsAGziZOqFDc40crCYj0pAkfAUY9wMb/view" target="_blank">🔑 Solution</a>
+                <a class="chip" href="https://drive.google.com/file/d/1nJui0DRtQ-2B6baLzgz5yASaCvtnL9eT/view" target="_blank">📝 Fall 22 First — Q3</a>
+                <a class="chip" href="https://drive.google.com/file/d/1ctxDT7qqOfYFqHQTBdwMZvBNwVyC3EMe/view" target="_blank">🔑 Solution</a>
+                <a class="chip" href="https://drive.google.com/file/d/1-f3Cn9s9qJGn0LVN4a268UyDiBexRouo/view" target="_blank">🔑 Spring 22 First — Q3 Solution</a>
+                <a class="chip" href="https://drive.google.com/file/d/1dAMSwZIaUHxgv95D3pNuzg9Qh0bcr_UY/view" target="_blank">📝 Fall 21 Mid — Q3.A/B</a>
+                <a class="chip" href="https://drive.google.com/file/d/1JJMzZyC2iNYfi3XsEUYSThoFLZ-pvitw/view" target="_blank">🔑 Solution</a>
+              </div>
+            </div>
+          </div>
+          <div class="study-step">
+            <div class="sn">4</div>
+            <div>
+              <div class="st-title">Doubly List Exam Questions</div>
+              <div class="chips">
+                <a class="chip" href="https://drive.google.com/file/d/1caBxJHxHRAk1k-fz-fDn51XMe-ds1Cg0/view" target="_blank">🔑 Fall 22 Second — Q2 Solution</a>
+                <a class="chip" href="https://drive.google.com/file/d/1B2wwtuXLiJjhmAHoVMnpWm2kEAx9GpOF/view" target="_blank">🔑 Spring 22 Second — Q1 Solution</a>
+                <a class="chip" href="https://drive.google.com/file/d/1dAMSwZIaUHxgv95D3pNuzg9Qh0bcr_UY/view" target="_blank">📝 Fall 21 Mid — Q3.C</a>
+                <a class="chip" href="https://drive.google.com/file/d/1JJMzZyC2iNYfi3XsEUYSThoFLZ-pvitw/view" target="_blank">🔑 Solution</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="sbox">
+            <div class="sbox-title">Gotchas &amp; Rules</div>
+            <ul>
+              <li>Always check if <code>head == nullptr</code> first!</li>
+              <li>When deleting the last node, update both head and tail references to <code>nullptr</code>.</li>
+              <li>In doubly-linked lists, remember to link <code>node->next->prev = node</code> (avoid Null Pointer Dereference!).</li>
+            </ul>
+          </div>
+          <div class="pull">Prefer tracing code on paper first. Solving lists requires a solid drawing of nodes and pointers. Check <a href="https://docs.google.com/document/d/15BVMhjwFnGattwKcs6xEZKDmKR7CzMbF-gSj-buPzY4/edit" target="_blank">Old list exams</a>.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STACKS & QUEUES -->
+  <div class="page" id="page-stack_queue">
+    <div class="inner">
+      <div class="pg-head">
+        <div>
+          <div class="pg-cat">Study Guide · 04</div>
+          <h2 class="pg-title">Stacks &amp; Queues</h2>
+          <p class="pg-by">Abstract Data Types: LIFO and FIFO implementations</p>
+        </div>
+        <div class="pg-icon">📥</div>
+      </div>
+      <div class="two-col">
+        <div>
+          <div class="study-step">
+            <div class="sn">1</div>
+            <div>
+              <div class="st-title">Curriculum Slides</div>
+              <div class="chips">
+                <a class="chip" href="https://drive.google.com/file/d/19-77mLPaoml67yXhG03oivqTIC5y8oEX" target="_blank">📄 Stacks &amp; Queues Slides</a>
+              </div>
+            </div>
+          </div>
+          <div class="study-step">
+            <div class="sn">2</div>
+            <div>
+              <div class="st-title">Implementation Files</div>
+              <p class="st-text">Inspect array-based and doubly-linked-list implementations of both ADTs.</p>
+              <div class="chips">
+                <span class="chip" onclick="nav('code',document.querySelectorAll('.nav-btn')[8]);ct('stack_array')">💻 Stack Array</span>
+                <span class="chip" onclick="nav('code',document.querySelectorAll('.nav-btn')[8]);ct('stack_dll')">💻 Stack DLL</span>
+                <span class="chip" onclick="nav('code',document.querySelectorAll('.nav-btn')[8]);ct('queue_array')">💻 Queue Array</span>
+                <span class="chip" onclick="nav('code',document.querySelectorAll('.nav-btn')[8]);ct('queue_dll')">💻 Queue DLL</span>
+                <span class="chip" onclick="nav('code',document.querySelectorAll('.nav-btn')[8]);ct('stack_queue')">💻 Driver Test</span>
+              </div>
+            </div>
+          </div>
+          <div class="study-step">
+            <div class="sn">3</div>
+            <div>
+              <div class="st-title">Practice Worksheets</div>
+              <div class="chips">
+                <a class="chip" href="exercises/stacks_queues_exercises.html">📝 Stacks &amp; Queues Exercises (5 problems)</a>
+              </div>
+            </div>
+          </div>
+          <div class="study-step">
+            <div class="sn">4</div>
+            <div>
+              <div class="st-title">Previous Exam Questions</div>
+              <div class="chips">
+                <a class="chip" href="https://drive.google.com/file/d/1caBxJHxHRAk1k-fz-fDn51XMe-ds1Cg0/view" target="_blank">🔑 Fall 22 Second — Q1 Solution</a>
+                <a class="chip" href="https://drive.google.com/file/d/1B2wwtuXLiJjhmAHoVMnpWm2kEAx9GpOF/view" target="_blank">🔑 Spring 22 Second — Q2 Solution</a>
+                <a class="chip" href="https://drive.google.com/file/d/1dAMSwZIaUHxgv95D3pNuzg9Qh0bcr_UY/view" target="_blank">📝 Fall 21 Mid — Q2</a>
+                <a class="chip" href="https://drive.google.com/file/d/1JJMzZyC2iNYfi3XsEUYSThoFLZ-pvitw/view" target="_blank">🔑 Solution</a>
+                <a class="chip" href="https://drive.google.com/file/d/1tjQJ4rxh3BNF0yc0lvceFv3DuwS_XAdX/view" target="_blank">📝 Fall 21 Final — Q5</a>
+                <a class="chip" href="https://drive.google.com/file/d/1fDMaAQVWAao2sVxTA-YpLZpCRLkpmlyK/view" target="_blank">📝 Spring 22 Final — Q5</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="sbox">
+            <div class="sbox-title">Array Queue: Circular Modulo</div>
+            <p style="font-size:14px;color:var(--ink2)">When writing a Queue using an array, we avoid element-shifting by using a <strong>circular array</strong>. The indexes wrap around using modulo:</p>
+            <p style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--rust);margin:8px 0;">rear = (rear + 1) % capacity;</p>
+            <p style="font-size:14px;color:var(--ink2)">This ensures O(1) push and pop!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BINARY SEARCH TREES -->
+  <div class="page" id="page-bst">
+    <div class="inner">
+      <div class="pg-head">
+        <div>
+          <div class="pg-cat">Study Guide · 05</div>
+          <h2 class="pg-title">Binary Search Trees</h2>
+          <p class="pg-by">Tree structure, traversals (pre/in/post-order), insertion, and deletion</p>
+        </div>
+        <div class="pg-icon">🌲</div>
+      </div>
+      <div class="two-col">
+        <div>
+          <div class="study-step">
+            <div class="sn">1</div>
+            <div>
+              <div class="st-title">Curriculum Slides</div>
+              <div class="chips">
+                <a class="chip" href="https://drive.google.com/file/d/1TcKI5HOjJOk5t0Z07txprVguHT6KtAp3/view?usp=sharing" target="_blank">📄 Tree Properties &amp; Definitions</a>
+                <a class="chip" href="https://drive.google.com/file/d/1YPTDM4HdVG9to-uCvjfE8V1ObwCwuc5H/view?usp=sharing" target="_blank">📄 Insertion, Deletion, Rebalancing</a>
+                <a class="chip" href="https://drive.google.com/file/d/1fruIlAlGngGH0VZ9pGfoXCkrql9Obsrz/view?usp=sharing" target="_blank">📄 Tree Traversals</a>
+              </div>
+            </div>
+          </div>
+          <div class="study-step">
+            <div class="sn">2</div>
+            <div>
+              <div class="st-title">Code Implementations</div>
+              <p class="st-text">BST uses recursive helper functions (with a node pointer) to complete insertions, lookups, and deletions.</p>
+              <div class="chips">
+                <span class="chip" onclick="nav('code',document.querySelectorAll('.nav-btn')[8]);ct('bst')">💻 bst.h Header Template</span>
+                <span class="chip" onclick="nav('code',document.querySelectorAll('.nav-btn')[8]);ct('bst_driver')">💻 bst.cpp Driver</span>
+              </div>
+            </div>
+          </div>
+          <div class="study-step">
+            <div class="sn">3</div>
+            <div>
+              <div class="st-title">Comprehensive Programming Worksheets</div>
+              <p class="st-text">A large file containing 14 detailed recursive tree exercises (counts, leaf nodes, heights, depths, balanced checks) with solutions.</p>
+              <div class="chips">
+                <a class="chip" href="exercises/bst_exercises.html">📝 BST Exercises (14 problems)</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="sbox">
+            <div class="sbox-title">Key BST Rules</div>
+            <ul>
+              <li><strong>Search Time:</strong> Worst: O(n) (unbalanced/chains), Average: O(log n).</li>
+              <li><strong>In-Order Traversal:</strong> Recursively visits (Left, Node, Right). Prints BST elements in sorted order!</li>
+              <li><strong>Pre-Order:</strong> (Node, Left, Right).</li>
+              <li><strong>Post-Order:</strong> (Left, Right, Node).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HASH TABLES -->
+  <div class="page" id="page-hashing">
+    <div class="inner">
+      <div class="pg-head">
+        <div>
+          <div class="pg-cat">Study Guide · 06</div>
+          <h2 class="pg-title">Hash Tables</h2>
+          <p class="pg-by">Hash functions, Open Addressing (Linear, Quadratic, Double), and Chaining</p>
+        </div>
+        <div class="pg-icon">🔑</div>
+      </div>
+      <div class="two-col">
+        <div>
+          <div class="study-step">
+            <div class="sn">1</div>
+            <div>
+              <div class="st-title">Slides &amp; Hashing Code</div>
+              <div class="chips">
+                <a class="chip" href="https://drive.google.com/file/d/1Eka4poNVMNgdTKyUk06OUP2ufTFqCc3P" target="_blank">📄 Hashing Slides</a>
+                <span class="chip" onclick="nav('code',document.querySelectorAll('.nav-btn')[8]);ct('hash_table')">💻 hash_table.h</span>
+                <span class="chip" onclick="nav('code',document.querySelectorAll('.nav-btn')[8]);ct('hashing')">💻 hashing.cpp driver</span>
+              </div>
+            </div>
+          </div>
+          <div class="study-step">
+            <div class="sn">2</div>
+            <div>
+              <div class="st-title">Practice Worksheets</div>
+              <div class="chips">
+                <a class="chip" href="exercises/hashing_exercises.html">📝 Hashing Exercises (6 problems)</a>
+              </div>
+            </div>
+          </div>
+          <div class="study-step">
+            <div class="sn">3</div>
+            <div>
+              <div class="st-title">Previous Quizzes</div>
+              <div class="chips">
+                <a class="chip" href="https://drive.google.com/file/d/1oH-VdAmpE25kuJrlwqEl5TPdkB61hPbn/view" target="_blank">📝 Spring 24 Quiz v1</a>
+                <a class="chip" href="https://drive.google.com/file/d/1B8ZgQDJUyUvUXNhJEAEUbj9r7nEWieQv/view" target="_blank">📝 Spring 24 Quiz v2</a>
+                <a class="chip" href="https://drive.google.com/file/d/1ss2c0LAm5NByE3d5pOvbB0BdOwUwIBmQ/view" target="_blank">📝 Spring 24 Quiz v3</a>
+                <a class="chip" href="https://drive.google.com/file/d/1E9x_J99ty3ANBWLesOKMOv_7YPZrYYP3/view" target="_blank">📝 Spring 23 Quiz</a>
+                <a class="chip" href="https://drive.google.com/file/d/1hYRHIG0DVBMOqLZ0Uz6I13abt2Gx41Np/view" target="_blank">📝 Spring 22 Quiz</a>
+                <a class="chip" href="https://drive.google.com/file/d/1o3nelIrRtZVeyyn-gCP0vDypc5PCkdV7/view" target="_blank">🔑 Solution</a>
+                <a class="chip" href="https://drive.google.com/file/d/1h5AZYQmhHByPt-aDn3L7dd0ruNcx-1F9/view" target="_blank">📝 Fall 22 Quiz</a>
+                <a class="chip" href="https://drive.google.com/file/d/1nuzN4j00amtq3kY7OBYWW4SmS-kfadFS/view" target="_blank">🔑 Solution</a>
+              </div>
+            </div>
+          </div>
+          <div class="study-step">
+            <div class="sn">4</div>
+            <div>
+              <div class="st-title">Final Exam Hashing Problems</div>
+              <div class="chips">
+                <a class="chip" href="https://drive.google.com/file/d/1t-8ksGqoDyUqZObUttzNpwtTlGbkyuCA/view" target="_blank">📝 Spring 24 Final — Q5</a>
+                <a class="chip" href="https://drive.google.com/file/d/1fDMaAQVWAao2sVxTA-YpLZpCRLkpmlyK/view" target="_blank">🔑 Spring 22 Final — Q3 Solution</a>
+                <a class="chip" href="https://drive.google.com/file/d/1tjQJ4rxh3BNF0yc0lvceFv3DuwS_XAdX/view" target="_blank">📝 Fall 21 Final — Q3</a>
+                <a class="chip" href="https://docs.google.com/document/d/1I78yeQT96KixfW1wt7lDs4JmdTYzrPoU/edit" target="_blank">📝 Spring 16 Final — Q3</a>
+                <a class="chip" href="https://docs.google.com/document/d/11ih6C_KjqXGQR17dkYJ_3bFaNy53kdKQ/edit" target="_blank">📝 Spring 15 Final — Q4</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="sbox">
+            <div class="sbox-title">Collision Resolution</div>
+            <p style="font-size:14px;color:var(--ink2)">When two keys hash to the same cell:</p>
+            <ul style="margin-top:8px;">
+              <li><strong>Linear Probing:</strong> Check cell <code>(h(k)+i) % size</code>.</li>
+              <li><strong>Quadratic Probing:</strong> Check cell <code>(h(k)+i²) % size</code>.</li>
+              <li><strong>Double Hashing:</strong> Check cell <code>(h1(k) + i*h2(k)) % size</code>.</li>
+              <li><strong>Chaining:</strong> Each table index points to a linked list of collided nodes.</li>
+            </ul>
+          </div>
+          <div class="pull">For old hash tables exams check out <a href="https://drive.google.com/drive/folders/1O3Zc8d6lGQAHaLSvcWwgWqyIYWB_boBn" target="_blank">this archive directory</a>.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- C++ STL -->
+  <div class="page" id="page-stl">
+    <div class="inner">
+      <div class="pg-head">
+        <div>
+          <div class="pg-cat">Study Guide · 07</div>
+          <h2 class="pg-title">C++ Standard Template Library</h2>
+          <p class="pg-by">STL Vectors, Lists, Sets, Maps, Stacks, and range-based loops</p>
+        </div>
+        <div class="pg-icon">📦</div>
+      </div>
+      <div class="two-col">
+        <div>
+          <div class="study-step">
+            <div class="sn">1</div>
+            <div>
+              <div class="st-title">STL Video Overview</div>
+              <p class="st-text">Watch these detailed recordings illustrating iterators, vectors, and library functions.</p>
+              <div class="chips">
+                <a class="chip" href="https://drive.google.com/file/d/1UzGUJo0SoTqdrPRJxI5pek5DaFIErchI/view" target="_blank">▶ Core STL Video (Aya Tell)</a>
+                <a class="chip" href="https://drive.google.com/file/d/1dywBBjQJd7yDoEGd8fcMfNgf6Pg5nLvX/view?usp=drive_link" target="_blank">▶ Advanced STL Video (Iterators &amp; Algos)</a>
+                <span class="chip" onclick="nav('code',document.querySelectorAll('.nav-btn')[8]);ct('stl')">💻 STL.cpp source code</span>
+              </div>
+            </div>
+          </div>
+          <div class="study-step">
+            <div class="sn">2</div>
+            <div>
+              <div class="st-title">STL Container Reference Sheets</div>
+              
+              <div class="sbox" style="margin-top:12px;">
+                <div class="sbox-title">std::vector (Dynamic Array)</div>
+                <p class="st-text">Constant-time tail inserts. Slow front inserts (requires shifting elements).</p>
+                <pre style="background:var(--code-bg);color:var(--code-text);padding:10px;font-size:12.5px;font-family:monospace;border-radius:4px;">
+#include &lt;vector&gt;
+vector&lt;int&gt; v;
+v.push_back(10); // adds 10 to tail
+v.pop_back();    // removes tail
+int size = v.size();
+int x = v[0];    // O(1) random access</pre>
+              </div>
+
+              <div class="sbox">
+                <div class="sbox-title">std::set (Red-Black Tree)</div>
+                <p class="st-text">A collection of sorted, unique keys. Implemented as a balanced BST.</p>
+                <pre style="background:var(--code-bg);color:var(--code-text);padding:10px;font-size:12.5px;font-family:monospace;border-radius:4px;">
+#include &lt;set&gt;
+set&lt;string&gt; s;
+s.insert("Ahmad"); // O(log n)
+s.erase("Ahmad");  // O(log n)
+if (s.count("Ahmad")) { // checks presence (1/0)
+    // found
+}</pre>
+              </div>
+
+              <div class="sbox">
+                <div class="sbox-title">std::map (Key-Value Balanced BST)</div>
+                <p class="st-text">Associates unique keys to values. Node searches compare keys.</p>
+                <pre style="background:var(--code-bg);color:var(--code-text);padding:10px;font-size:12.5px;font-family:monospace;border-radius:4px;">
+#include &lt;map&gt;
+map&lt;string, int&gt; m;
+m["Amman"] = 4000000;
+m.erase("Amman"); // O(log n)
+for (pair&lt;string, int&gt; p : m) {
+    cout &lt;&lt; p.first &lt;&lt; " : " &lt;&lt; p.second &lt;&lt; endl;
+}</pre>
+              </div>
+            </div>
+          </div>
+          <div class="study-step">
+            <div class="sn">3</div>
+            <div>
+              <div class="st-title">Range-Based Loop Iteration</div>
+              <p class="st-text">Iterating through <code>std::set</code> and <code>std::map</code> yields items sorted by key.</p>
+              <pre style="background:var(--code-bg);color:var(--code-text);padding:10px;font-size:12.5px;font-family:monospace;border-radius:4px;">
+// Iterating over set:
+for (int num : my_set) {
+    cout &lt;&lt; num &lt;&lt; " ";
+}
+
+// Iterating over map:
+for (pair&lt;string, int&gt; item : my_map) {
+    cout &lt;&lt; item.first &lt;&lt; " has value " &lt;&lt; item.second;
+}</pre>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="sbox">
+            <div class="sbox-title">Complexity Reference</div>
+            <table style="width:100%;font-size:12px;border-collapse:collapse;color:var(--ink2);">
+              <thead>
+                <tr style="border-bottom:1px solid var(--border)">
+                  <th style="padding:4px">Class</th>
+                  <th style="padding:4px">Insert</th>
+                  <th style="padding:4px">Access</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border)">
+                  <td style="padding:4px">vector</td>
+                  <td style="padding:4px">O(1)*</td>
+                  <td style="padding:4px">O(1)</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border)">
+                  <td style="padding:4px">list</td>
+                  <td style="padding:4px">O(1)</td>
+                  <td style="padding:4px">O(n)</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border)">
+                  <td style="padding:4px">set</td>
+                  <td style="padding:4px">O(log n)</td>
+                  <td style="padding:4px">O(log n)</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border)">
+                  <td style="padding:4px">map</td>
+                  <td style="padding:4px">O(log n)</td>
+                  <td style="padding:4px">O(log n)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CODE VIEWER -->
+  <div class="page" id="page-code">
+    <div class="code-wrap">
+      <div class="pg-head" style="border-bottom:2px solid var(--ink);margin-bottom:28px;">
+        <div>
+          <div class="pg-cat">Repository · C++ Files</div>
+          <h2 class="pg-title">Interactive Code Viewer</h2>
+        </div>
+      </div>
+      <div class="file-tabs" id="ftabs">
+        <div class="ftab active" onclick="ct('sll_comments')" id="tab-sll_comments">int_sll_comments.h</div>
+        <div class="ftab" onclick="ct('sll')" id="tab-sll">int_sll.h</div>
+        <div class="ftab" onclick="ct('sll_test')" id="tab-sll_test">sll_test.cpp</div>
+        <div class="ftab" onclick="ct('dll_comments')" id="tab-dll_comments">dll_comments.h</div>
+        <div class="ftab" onclick="ct('dll')" id="tab-dll">dll.h</div>
+        <div class="ftab" onclick="ct('ordered_dll')" id="tab-ordered_dll">ordered_dll.h</div>
+        <div class="ftab" onclick="ct('dll_test')" id="tab-dll_test">dll_test.cpp</div>
+        <div class="ftab" onclick="ct('stack_array')" id="tab-stack_array">stack_array.h</div>
+        <div class="ftab" onclick="ct('stack_dll')" id="tab-stack_dll">stack_dll.h</div>
+        <div class="ftab" onclick="ct('queue_array')" id="tab-queue_array">queue_array.h</div>
+        <div class="ftab" onclick="ct('queue_dll')" id="tab-queue_dll">queue_dll.h</div>
+        <div class="ftab" onclick="ct('stack_queue')" id="tab-stack_queue">stack_queue.cpp</div>
+        <div class="ftab" onclick="ct('bst')" id="tab-bst">bst.h</div>
+        <div class="ftab" onclick="ct('bst_driver')" id="tab-bst_driver">bst.cpp</div>
+        <div class="ftab" onclick="ct('hash_table')" id="tab-hash_table">hash_table.h</div>
+        <div class="ftab" onclick="ct('hashing')" id="tab-hashing">hashing.cpp</div>
+        <div class="ftab" onclick="ct('stl')" id="tab-stl">STL.cpp</div>
+        <div class="ftab" onclick="ct('array_list')" id="tab-array_list">ArrayList.cpp</div>
+      </div>
+      <div class="editor">
+        <div class="ebar">
+          <div class="edots">
+            <div class="ed ed-r"></div>
+            <div class="ed ed-y"></div>
+            <div class="ed ed-g"></div>
+          </div>
+          <span class="efname" id="efname">int_sll_comments.h</span>
+          <button class="copybtn" onclick="copyCode()">Copy</button>
+        </div>
+        <pre id="cv"></pre>
+      </div>
+      <div style="margin-top:14px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);">All source files are compiled dynamically from the local repository directory.</div>
+    </div>
+  </div>
+
+  <!-- EXAMINATION HALL -->
+  <div class="page" id="page-quizzes">
+    <div class="inner">
+      <div class="pg-head">
+        <div>
+          <div class="pg-cat">Practice Material</div>
+          <h2 class="pg-title">Examination Hall</h2>
+          <p class="pg-by">Syllabus-aligned past papers, midterms, and finals</p>
+        </div>
+        <div class="pg-icon">📝</div>
+      </div>
+      
+      <div class="section-tag" style="margin-bottom:14px;">Quizzes &amp; Worksheets by Topic</div>
+      <div class="qgrid">
+        <div class="qcard">
+          <div class="q-num">Topic 01 ·</div>
+          <div class="q-title">Algorithm Analysis Quizzes</div>
+          <ul>
+            <li><a href="https://drive.google.com/file/d/15KJRlGxRWHOZtGiXPAuvhYFbnvDbG9Lg/view" target="_blank">Spring 2023 Quiz (v1)</a></li>
+            <li><a href="https://drive.google.com/file/d/1GqrOIUzCFKiLfSmxhxOaZWy8F7DV5Gnv/view" target="_blank">Spring 2023 Quiz (v2)</a></li>
+            <li><a href="https://drive.google.com/file/d/1hTrWPT-yTUpzOsLdYCqze48ANMASggBC/view" target="_blank">Spring 2023 Quiz (v3)</a></li>
+            <li><a href="https://drive.google.com/file/d/1GM1v2eFKnOmzaXQCNL968Zk-ku6B5Vjk/view" target="_blank">Spring 2022 Quiz</a></li>
+            <li><a href="https://drive.google.com/file/d/14rF4Ja6LeNZg_vgWpnZ30KN852PIBEX5/view" target="_blank">Fall 2022 Quiz (v1)</a></li>
+            <li><a href="https://drive.google.com/file/d/1xRFps2EfcCu3MvXYEy96Su1ArUvCf9sA/view" target="_blank">Fall 2022 Quiz (v2)</a></li>
+          </ul>
+        </div>
+        <div class="qcard">
+          <div class="q-num">Topic 02 ·</div>
+          <div class="q-title">Sorting Worksheets</div>
+          <ul>
+            <li><a href="https://docs.google.com/document/d/1PFK_hDCkCq92s5yjkQOvukkTaA7aT17UYLYRUld4yjA" target="_blank">Selection Sort Worksheet</a></li>
+            <li><a href="https://docs.google.com/document/d/1KrBXubdPcXwfFM3R88OirCDm2pHZb0ff3Qyj6GUfdBQ" target="_blank">Bubble Sort Worksheet</a></li>
+            <li><a href="https://docs.google.com/document/d/19JQzSO_Lo37xYBLKE1lRYr2Jll_l1Pr_Nx34-lS-lsc" target="_blank">Insertion Sort Worksheet</a></li>
+            <li><a href="https://drive.google.com/file/d/1VNFGeoSQi04xGBRpS6mXdLk_Ktgw8mdE/view" target="_blank">Advanced Sorting Video Solutions</a></li>
+          </ul>
+        </div>
+        <div class="qcard">
+          <div class="q-num">Topic 06 ·</div>
+          <div class="q-title">Hash Table Quizzes</div>
+          <ul>
+            <li><a href="https://drive.google.com/file/d/1oH-VdAmpE25kuJrlwqEl5TPdkB61hPbn/view" target="_blank">Spring 24 Hashing (v1)</a></li>
+            <li><a href="https://drive.google.com/file/d/1B8ZgQDJUyUvUXNhJEAEUbj9r7nEWieQv/view" target="_blank">Spring 24 Hashing (v2)</a></li>
+            <li><a href="https://drive.google.com/file/d/1ss2c0LAm5NByE3d5pOvbB0BdOwUwIBmQ/view" target="_blank">Spring 24 Hashing (v3)</a></li>
+            <li><a href="https://drive.google.com/file/d/1E9x_J99ty3ANBWLesOKMOv_7YPZrYYP3/view" target="_blank">Spring 23 Hashing Quiz</a></li>
+            <li><a href="https://drive.google.com/file/d/1hYRHIG0DVBMOqLZ0Uz6I13abt2Gx41Np/view" target="_blank">Spring 22 Hashing Quiz</a></li>
+            <li><a href="https://drive.google.com/file/d/1h5AZYQmhHByPt-aDn3L7dd0ruNcx-1F9/view" target="_blank">Fall 22 Hashing Quiz</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section-tag" style="margin-bottom:14px;margin-top:20px;">Major Exams (Midterms &amp; Finals)</div>
+      <div class="qgrid">
+        <div class="qcard" style="border-top: 2px solid var(--rust);">
+          <div class="q-num">Midterm Exams ·</div>
+          <div class="q-title">Midterms &amp; First Exams</div>
+          <ul>
+            <li><a href="https://drive.google.com/file/d/1vpR-ErE-rOogbdpeoj2gxU0xqG5B2XXE/view" target="_blank">Spring 2024 Midterm Q1 (Analysis)</a></li>
+            <li><a href="https://drive.google.com/file/d/1ZDBgEq_-6c9EE40-BJ28IVPCliq64qQ5/view" target="_blank">Fall 2023 Midterm Q4 (Analysis)</a></li>
+            <li><a href="https://drive.google.com/file/d/1nJui0DRtQ-2B6baLzgz5yASaCvtnL9eT/view" target="_blank">Fall 2022 First Exam (Analysis/Sorting/Lists)</a></li>
+            <li><a href="https://drive.google.com/file/d/1iENXZOOyi0rZC3YnYxOJaBAHn1ZHYv1o" target="_blank">Spring 2023 First Exam</a></li>
+            <li><a href="https://drive.google.com/file/d/1dAMSwZIaUHxgv95D3pNuzg9Qh0bcr_UY/view" target="_blank">Fall 2021 Midterm Exam</a></li>
+          </tr>
+        </div>
+        <div class="qcard" style="border-top: 2px solid var(--ink);">
+          <div class="q-num">Final Exams ·</div>
+          <div class="q-title">Comprehensive Finals</div>
+          <ul>
+            <li><a href="https://drive.google.com/file/d/1t-8ksGqoDyUqZObUttzNpwtTlGbkyuCA/view" target="_blank">Spring 2024 Final — Q5 (Hashing)</a></li>
+            <li><a href="https://drive.google.com/file/d/1fDMaAQVWAao2sVxTA-YpLZpCRLkpmlyK/view" target="_blank">Spring 2022 Final — (Hashing/Lists/Queues)</a></li>
+            <li><a href="https://drive.google.com/file/d/1tjQJ4rxh3BNF0yc0lvceFv3DuwS_XAdX/view" target="_blank">Fall 2021 Final Exam</a></li>
+            <li><a href="https://docs.google.com/document/d/1I78yeQT96KixfW1wt7lDs4JmdTYzrPoU/edit" target="_blank">Spring 2016 Final — Q3 (Hashing)</a></li>
+            <li><a href="https://docs.google.com/document/d/11ih6C_KjqXGQR17dkYJ_3bFaNy53kdKQ/edit" target="_blank">Spring 2015 Final — Q4 (Hashing)</a></li>
+          </ul>
+        </div>
+        <div class="qcard" style="border-top: 2px solid var(--rust-light);">
+          <div class="q-num">Exams Drive ·</div>
+          <div class="q-title">Full Repositories</div>
+          <ul>
+            <li><a href="https://drive.google.com/drive/folders/13e8MXoUnqkpg67tQXuThBoEF4IC6nV85" target="_blank">Previous Exams Drive Folder</a></li>
+            <li><a href="https://docs.google.com/document/d/1Eln96RuMHlePVwB3BgCIuSqlLDhR6-mvYqqlHxKpGcU/edit" target="_blank">Old Analysis Exams Document</a></li>
+            <li><a href="https://docs.google.com/document/d/15BVMhjwFnGattwKcs6xEZKDmKR7CzMbF-gSj-buPzY4/edit" target="_blank">Old List Exams Document</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALL LINKS -->
+  <div class="page" id="page-links">
+    <div class="inner">
+      <div class="pg-head">
+        <div>
+          <div class="pg-cat">Resources</div>
+          <h2 class="pg-title">All External Links</h2>
+          <p class="pg-by">Every drive folder, slides document, and sheet in one clean catalog</p>
+        </div>
+        <div class="pg-icon">🔗</div>
+      </div>
+      <div class="lcols">
+        <div class="lcol">
+          <div class="lcol-label">Drives &amp; Repositories</div>
+          <ul>
+            <li><a href="https://drive.google.com/drive/folders/1pKm5KkEsBfC2UWBvvBaGgbt0QvtU3NaP" target="_blank">Curriculum Slides Drive</a></li>
+            <li><a href="https://drive.google.com/drive/folders/13e8MXoUnqkpg67tQXuThBoEF4IC6nV85" target="_blank">Previous Exams Drive</a></li>
+            <li><a href="https://github.com/ialbluwi/psut-data-structures" target="_blank">GitHub Source Repository</a></li>
+          </ul>
+        </div>
+        <div class="lcol">
+          <div class="lcol-label">Lectures &amp; Slides</div>
+          <ul>
+            <li><a href="https://drive.google.com/file/d/17l0dOvNT5tSNCrhB0xFHg-RQ6hcttQU-" target="_blank">Algorithm Analysis Slides</a></li>
+            <li><a href="https://drive.google.com/file/d/1WdVifS5IhyhjgKRHumf9fUw5mwC1TDJU" target="_blank">Searching Slides</a></li>
+            <li><a href="https://drive.google.com/file/d/12xXSnvu9KP7n1QAiNO4nKslAr0Myv6A9/" target="_blank">Sorting Slides (Full)</a></li>
+            <li><a href="https://drive.google.com/file/d/1e_VIPMUpYJxKL6tvSRhS9tet9tsTeDUQ/view?usp=sharing" target="_blank">Sorting Slides (Short)</a></li>
+            <li><a href="https://drive.google.com/file/d/19-77mLPaoml67yXhG03oivqTIC5y8oEX" target="_blank">Stacks &amp; Queues Slides</a></li>
+            <li><a href="https://drive.google.com/file/d/1TcKI5HOjJOk5t0Z07txprVguHT6KtAp3/view?usp=sharing" target="_blank">BST Slides 1 (Intro)</a></li>
+            <li><a href="https://drive.google.com/file/d/1YPTDM4HdVG9to-uCvjfE8V1ObwCwuc5H/view?usp=sharing" target="_blank">BST Slides 2 (Insertion/Deletion)</a></li>
+            <li><a href="https://drive.google.com/file/d/1fruIlAlGngGH0VZ9pGfoXCkrql9Obsrz/view?usp=sharing" target="_blank">BST Slides 3 (Traversals)</a></li>
+            <li><a href="https://drive.google.com/file/d/1Eka4poNVMNgdTKyUk06OUP2ufTFqCc3P" target="_blank">Hashing/Hash Tables Slides</a></li>
+            <li><a href="https://drive.google.com/file/d/14AT2cFd0zpp7okcOEYhFHJ4eXQV8bsvQ" target="_blank">Priority Queues Slides</a></li>
+          </ul>
+        </div>
+        <div class="lcol">
+          <div class="lcol-label">Cheatsheets &amp; Sheets</div>
+          <ul>
+            <li><a href="https://drive.google.com/file/d/197IIsUG1I_Ys1rFXhi1l6QRuLahQwDoh" target="_blank">Math Analysis Cheatsheet</a></li>
+            <li><a href="https://tiny-papyrus-3bc.notion.site/11212-Data-Structures-and-Introduction-to-Algorithms-8429dc92832d460fa82fa21278baa911?pvs=4" target="_blank">Notion Summary (Qabas Ahmad)</a></li>
+            <li><a href="https://drive.google.com/file/d/13y1PejyoEpSdo5xig_6Pmy9lClzZpfBu" target="_blank">Algorithm Analysis Exercises</a></li>
+            <li><a href="exercises/list_exercises.html">Linked Lists Practice Sheet</a></li>
+            <li><a href="exercises/stacks_queues_exercises.html">Stacks &amp; Queues Practice Sheet</a></li>
+            <li><a href="exercises/bst_exercises.html">BST Practice Sheet</a></li>
+            <li><a href="exercises/hashing_exercises.html">Hashing Practice Sheet</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>Data Structures &amp; Algorithms Study Guide · CS11212 · PSUT</span>
+    <span>A resource hub for students · Built in 2026</span>
+  </footer>
+
+  <script src="code_data.js"></script>
+  <script>
+    let activeTab = 'sll_comments';
+
+    function hlCpp(code) {
+      const kws = ['int', 'void', 'return', 'class', 'public', 'private', 'protected',
+        'if', 'else', 'for', 'while', 'do', 'switch', 'case', 'break', 'default', 'new',
+        'delete', 'using', 'namespace', 'const', 'static', 'bool', 'double', 'float',
+        'char', 'string', 'true', 'false', 'nullptr', 'this', 'endl', 'cin', 'cout',
+        'include', 'pragma', 'struct', 'operator', 'template', 'typename', 'virtual', 'override'];
+
+      let html = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const tokens = [];
+      const save = (regex, cls) => {
+        html = html.replace(regex, (m) => {
+          const id = `__T${tokens.length}__`;
+          tokens.push(`<span class="${cls}">${m}</span>`);
+          return id;
+        });
+      };
+
+      save(/(\/\/[^\n]*)/g, 'cm');
+      save(/(\/\*[\s\S]*?\*\/)/g, 'cm');
+      save(/"([^"\\]*(\\.[^"\\]*)*)"/g, 'st');
+      save(/'([^'\\]*(\\.[^'\\]*)*)'/g, 'st');
+      save(/^(#\w+)/gm, 'pp');
+
+      const re = new RegExp('\\b(' + kws.join('|') + ')\\b', 'g');
+      html = html.replace(re, '<span class="kw">$1</span>');
+      html = html.replace(/\b(\d+(\.\d+)?)\b/g, '<span class="nu">$1</span>');
+      html = html.replace(/\b(\w+)(?=\s*\()/g, '<span class="fn">$1</span>');
+
+      for (let i = tokens.length - 1; i >= 0; i--) {
+        html = html.replace(`__T${i}__`, tokens[i]);
+      }
+      return html;
+    }
+
+    function ct(id) {
+      const f = cf[id]; if (!f) return;
+      activeTab = id;
+      document.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
+      const el = document.getElementById('tab-' + id);
+      if (el) {
+        el.classList.add('active');
+        el.scrollIntoView({ block: 'nearest', inline: 'center' });
+      }
+      document.getElementById('efname').textContent = f.name;
+
+      let code = f.code;
+      const highlighted = hlCpp(code);
+      const lines = highlighted.split('\n');
+
+      const html = lines.map((l, i) =>
+        `<div class="line"><span class="ln">${i + 1}</span><span class="lc">${l || ' '}</span></div>`
+      ).join('');
+
+      document.getElementById('cv').innerHTML = html;
+    }
+
+    function copyCode() {
+      const code = cf[activeTab]?.code || '';
+      navigator.clipboard.writeText(code).then(() => {
+        const b = document.querySelector('.copybtn');
+        const old = b.textContent;
+        b.textContent = 'Copied!';
+        b.style.borderColor = '#e8c06e';
+        b.style.color = '#e8c06e';
+        setTimeout(() => {
+          b.textContent = old;
+          b.style.borderColor = '';
+          b.style.color = '';
+        }, 1500);
+      });
+    }
+
+    function nav(id, btn) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      const pg = document.getElementById('page-' + id);
+      if (pg) pg.classList.add('active');
+      if (btn) btn.classList.add('active');
+      if (id === 'code') ct(activeTab);
+      window.scrollTo(0, 0);
+    }
+
+    /* ── THEME TOGGLE ── */
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.classList.toggle('dark');
+      localStorage.setItem('ds-theme', isDark ? 'dark' : 'light');
+      document.getElementById('themeLabel').textContent = isDark ? 'LIGHT' : 'DARK';
+    }
+
+    (function initTheme() {
+      const saved = localStorage.getItem('ds-theme');
+      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+        const lbl = document.getElementById('themeLabel');
+        if (lbl) lbl.textContent = 'LIGHT';
+      }
+    })();
+
+    // Initialize code viewer on load
+    window.addEventListener('DOMContentLoaded', () => {
+      ct('sll_comments');
+    });
+  </script>
+</body>
+
+</html>

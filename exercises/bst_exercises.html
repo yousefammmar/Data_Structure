@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BST Exercises — CS11212</title>
+  <meta name="description" content="14 programming exercises on Binary Search Trees with full solutions for PSUT Data Structures course." />
+  <link rel="stylesheet" href="../shared.css" />
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="back-link" href="../index.html">← Back to Main Site</a>
+      <span class="topbar-title">CS11212 · Data Structures &amp; Algorithms · PSUT</span>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <div class="toggle-track"><div class="toggle-thumb"></div></div>
+        <span id="themeLabel">DARK</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-cat">Exercises · Binary Search Trees</div>
+    <h1>Binary Search Tree <em>Exercises</em></h1>
+    <p class="hero-sub">Based on <code>bst.h</code> · 14 programming challenges with full solutions</p>
+  </div>
+
+  <div class="toc-bar">
+    <span class="toc-label">Jump to:</span>
+    <a class="toc-chip" href="#ex1">Ex 1 — count()</a>
+    <a class="toc-chip" href="#ex2">Ex 2 — count_leafs()</a>
+    <a class="toc-chip" href="#ex3">Ex 3 — compute_heights()</a>
+    <a class="toc-chip" href="#ex4">Ex 4 — compute_depths()</a>
+    <a class="toc-chip" href="#ex5">Ex 5 — is_perfect()</a>
+    <a class="toc-chip" href="#ex6">Ex 6 — is_balanced()</a>
+    <a class="toc-chip" href="#ex7">Ex 7 — count_last_level()</a>
+    <a class="toc-chip" href="#ex8">Ex 8 — prune()</a>
+    <a class="toc-chip" href="#ex9">Ex 9 — update_counts()</a>
+    <a class="toc-chip" href="#ex10">Ex 10 — rank()</a>
+    <a class="toc-chip" href="#ex11">Ex 11 — is_chain()</a>
+    <a class="toc-chip" href="#ex12">Ex 12 — is_bst()</a>
+    <a class="toc-chip" href="#ex13">Ex 13 — build_balanced_bst()</a>
+    <a class="toc-chip" href="#ex14">Ex 14 — count_in_range()</a>
+  </div>
+
+  <div class="content">
+
+    <!-- EXERCISE 1 -->
+    <div class="exercise" id="ex1">
+      <div class="exercise-header">
+        <div class="exercise-num">01</div>
+        <div class="exercise-title"><code>int count() const</code></div>
+      </div>
+      <p class="exercise-desc">Returns the total number of nodes in the BST. Two approaches are provided: recursive depth-first traversal and iterative breadth-first traversal.</p>
+      <button class="solution-toggle" data-target="sol1"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol1">
+        <div class="solution-label">Solution #1 — Recursive (DFS)</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="// Use depth-first traversal:
+// the order of the recursive calls does not matter
+// (post-order, in-order and pre-order are all ok)
+template <class T>
+int BST<T>::count(BSTNode<T>* node) const 
+{
+    if (node == nullptr)
+        return 0;
+    return 1 + count(node->left) + count(node->right);
+}
+
+template <class T>
+int BST<T>::count() const 
+{
+    return count(root);
+}"></pre>
+        </div>
+        <div class="solution-label" style="margin-top:20px;">Solution #2 — Iterative (BFS)</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+int BST<T>::count() const 
+{
+    if (is_empty())
+        return 0;
+  
+    int counter = 0;
+    QueueDLL<BSTNode<T>*> queue;
+    queue.enqueue(root);
+  
+    while (!queue.is_empty()) {
+        counter++;
+        BSTNode<T>* node = queue.dequeue();
+        if (node->left != nullptr)
+            queue.enqueue(node->left);
+        if (node->right != nullptr)
+            queue.enqueue(node->right);
+    }
+  
+    return counter;
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 2 -->
+    <div class="exercise" id="ex2">
+      <div class="exercise-header">
+        <div class="exercise-num">02</div>
+        <div class="exercise-title"><code>int count_leafs() const</code></div>
+      </div>
+      <p class="exercise-desc">Returns the number of leaf nodes (nodes with no children) in the BST.</p>
+      <button class="solution-toggle" data-target="sol2"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol2">
+        <div class="solution-label">Solution #1 — Recursive</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+int BST<T>::count_leafs(BSTNode<T>* node) const 
+{
+    if (node == nullptr)
+        return 0;
+    if (node->left == nullptr && node->right == nullptr)
+        return 1;
+    return count_leafs(node->left) + count_leafs(node->right);
+}
+
+template <class T>
+int BST<T>::count_leafs() const 
+{
+    return count_leafs(root);
+}"></pre>
+        </div>
+        <p class="exercise-desc" style="margin-top:12px;font-style:italic;">Solution #2: Use BFS (breadth-first traversal) similar to Exercise 1, Solution #2 — count nodes where both children are null.</p>
+      </div>
+    </div>
+
+    <!-- EXERCISE 3 -->
+    <div class="exercise" id="ex3">
+      <div class="exercise-header">
+        <div class="exercise-num">03</div>
+        <div class="exercise-title"><code>void compute_heights()</code></div>
+      </div>
+      <p class="exercise-desc">Assume <code>BSTNode</code> has <code>height</code> and <code>depth</code> data members. Computes and stores the <strong>height</strong> of each node using post-order traversal (process children before parent).</p>
+      <button class="solution-toggle" data-target="sol3"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol3">
+        <div class="solution-label">Solution #1 — Explicit post-order</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+void BST<T>::compute_heights(BSTNode<T>* node) 
+{
+    if (node == nullptr)
+        return;
+  
+    compute_heights(node->left);
+    compute_heights(node->right);
+  
+    int left_height = -1;
+    if (node->left != nullptr)
+        left_height = node->left->height;
+  
+    int right_height = -1;
+    if (node->right != nullptr)
+        right_height = node->right->height;
+  
+    node->height = 1 + std::max(left_height, right_height);
+}
+
+template <class T>
+void BST<T>::compute_heights() 
+{
+    compute_heights(root);
+}"></pre>
+        </div>
+        <div class="solution-label" style="margin-top:20px;">Solution #2 — Compact return-based</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template<class T>
+int BST<T>::compute_heights(BSTNode<T>* node){
+    if(node == nullptr)
+        return -1;
+
+    node->height = 1 + max(compute_heights(node->left),
+                           compute_heights(node->right));
+    return node->height;
+}
+
+template <class T>
+void BST<T>::compute_heights() 
+{
+    compute_heights(root);
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 4 -->
+    <div class="exercise" id="ex4">
+      <div class="exercise-header">
+        <div class="exercise-num">04</div>
+        <div class="exercise-title"><code>void compute_depths()</code></div>
+      </div>
+      <p class="exercise-desc">Computes and stores the <strong>depth</strong> of each node. Depth is distance from root (root has depth 0). Uses pre-order traversal — process parent before children.</p>
+      <button class="solution-toggle" data-target="sol4"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol4">
+        <div class="solution-label">Solution #1 — Pre-order (DFS)</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+void BST<T>::compute_depths(BSTNode<T>* node, BSTNode<T>* parent) 
+{
+    if (node == nullptr)
+        return;
+  
+    if (parent == nullptr)
+        node->depth = 0;
+    else
+        node->depth = parent->depth + 1;
+    
+    compute_depths(node->left, node);
+    compute_depths(node->right, node);
+}
+
+template <class T>
+void BST<T>::compute_depths() 
+{
+    compute_depths(root, nullptr);
+}"></pre>
+        </div>
+        <div class="solution-label" style="margin-top:20px;">Solution #2 — BFS (level-order)</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+void BST<T>::compute_depths() 
+{
+    if (is_empty())
+        return;
+  
+    QueueDLL<BSTNode<T>*> queue;
+    queue.enqueue(root);
+    root->depth = 0;
+  
+    while (!queue.is_empty()) {
+        BSTNode<T>* node = queue.dequeue();
+    
+        if (node->left != nullptr) {
+            node->left->depth = node->depth + 1;
+            queue.enqueue(node->left);
+        }
+        if (node->right != nullptr) {
+            node->right->depth = node->depth + 1;
+            queue.enqueue(node->right);
+        }
+    }
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 5 -->
+    <div class="exercise" id="ex5">
+      <div class="exercise-header">
+        <div class="exercise-num">05</div>
+        <div class="exercise-title"><code>bool is_perfect() const</code></div>
+      </div>
+      <p class="exercise-desc">Checks if the tree is a <strong>perfect binary tree</strong> — every internal node has exactly 2 children and all leaves are at the same level. Assumes <code>compute_heights()</code> was called.</p>
+      <button class="solution-toggle" data-target="sol5"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol5">
+        <div class="solution-label">Solution #1 — Recursive check on children heights</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+bool BST<T>::is_perfect() const 
+{
+    return is_perfect(root);
+}
+
+template <class T>
+bool BST<T>::is_perfect(BSTNode<T>* node) const
+{
+    if (node == nullptr)
+        return true;
+    
+    int left_height = -1;
+    int right_height = -1;
+    
+    if (node->left != nullptr)
+        left_height = node->left->height;
+    if (node->right != nullptr)
+        right_height = node->right->height;
+    
+    if (left_height != right_height)
+        return false;
+    
+    return is_perfect(node->left) && is_perfect(node->right);
+}"></pre>
+        </div>
+        <div class="solution-label" style="margin-top:20px;">Solution #2 — Count formula: 2^(h+1) - 1 nodes</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+bool BST<T>::is_perfect() const 
+{
+    if (root == nullptr)
+        return true;
+    
+    if (count() == (pow(2.0, root->height+1) - 1))
+        return true;
+    else
+        return false;
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 6 -->
+    <div class="exercise" id="ex6">
+      <div class="exercise-header">
+        <div class="exercise-num">06</div>
+        <div class="exercise-title"><code>bool is_balanced() const</code></div>
+      </div>
+      <p class="exercise-desc">Checks if the tree is <strong>height-balanced</strong> — for every node, the heights of the left and right subtrees differ by at most 1.</p>
+      <button class="solution-toggle" data-target="sol6"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol6">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+bool BST<T>::is_balanced() const 
+{
+    compute_heights();
+    return is_balanced(root);
+}
+
+template <class T>
+bool BST<T>::is_balanced(BSTNode<T>* node) const
+{
+    if (node == nullptr)
+        return true;
+    
+    int left_height = -1;
+    int right_height = -1;
+    
+    if (node->left != nullptr)
+        left_height = node->left->height;
+    if (node->right != nullptr)
+        right_height = node->right->height;
+    
+    if (abs(left_height - right_height) > 1)
+        return false;
+    
+    return is_balanced(node->left) && is_balanced(node->right);
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 7 -->
+    <div class="exercise" id="ex7">
+      <div class="exercise-header">
+        <div class="exercise-num">07</div>
+        <div class="exercise-title"><code>int count_last_level() const</code></div>
+      </div>
+      <p class="exercise-desc">Counts the number of nodes in the last (deepest) level of the tree.</p>
+      <button class="solution-toggle" data-target="sol7"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol7">
+        <div class="solution-label">Approach</div>
+        <div class="example-note">
+          1. Call <code>compute_heights()</code> and <code>compute_depths()</code>.<br/>
+          2. The depth of the last level equals the <code>height</code> of the root.<br/>
+          3. Perform any traversal and count all nodes whose <code>depth</code> equals <code>root->height</code>.
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 8 -->
+    <div class="exercise" id="ex8">
+      <div class="exercise-header">
+        <div class="exercise-num">08</div>
+        <div class="exercise-title"><code>void prune()</code></div>
+      </div>
+      <p class="exercise-desc">Deletes all <strong>leaf nodes</strong> from the tree (nodes with no children).</p>
+      <button class="solution-toggle" data-target="sol8"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol8">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+void BST<T>::prune() {
+    root = prune(root);
+}
+
+template <class T>
+BSTNode<T>* BST<T>::prune(BSTNode<T>* node) {
+    if (node == nullptr)
+        return nullptr;
+  
+    if (node->left == nullptr && node->right == nullptr) {
+        delete node;
+        return nullptr;
+    }
+  
+    node->left = prune(node->left);
+    node->right = prune(node->right);
+    return node;
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 9 -->
+    <div class="exercise" id="ex9">
+      <div class="exercise-header">
+        <div class="exercise-num">09</div>
+        <div class="exercise-title"><code>void update_counts()</code></div>
+      </div>
+      <p class="exercise-desc">Assume <code>BSTNode</code> has a <code>count</code> member storing the size of the subtree rooted at that node. Compute and store <code>count</code> for every node using post-order traversal.</p>
+      <button class="solution-toggle" data-target="sol9"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol9">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+void BST<T>::update_counts(BSTNode<T>* node) 
+{
+    if (node == nullptr)
+        return;
+  
+    update_counts(node->left);
+    update_counts(node->right);
+  
+    int left_count = 0;
+    if (node->left != nullptr)
+        left_count = node->left->count;
+  
+    int right_count = 0;
+    if (node->right != nullptr)
+        right_count = node->right->count;    
+  
+    node->count = 1 + left_count + right_count;
+}
+
+template <class T>
+void BST<T>::update_counts() 
+{
+    update_counts(root);
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 10 -->
+    <div class="exercise" id="ex10">
+      <div class="exercise-header">
+        <div class="exercise-num">10</div>
+        <div class="exercise-title"><code>int rank(const T&amp; val) const</code></div>
+      </div>
+      <p class="exercise-desc">Returns the <strong>rank</strong> of <code>val</code> — the number of values in the tree that are less than <code>val</code>. Using the <code>count</code> member from Exercise 9, this achieves O(log n) on a balanced BST.</p>
+      <button class="solution-toggle" data-target="sol10"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol10">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="// a helper function
+template <class T>
+int BST<T>::get_count(BSTNode<T>* node) const {
+    if (node == nullptr) return 0;
+    else return node->count;
+}
+
+template <class T>
+int BST<T>::rank(const T& val) const 
+{
+    return rank(val, root);
+}
+
+template <class T>
+int BST<T>::rank(const T& val, BSTNode<T>* node) const
+{
+    if (node == nullptr)
+        return 0;
+    
+    if (val == node->val)
+        return get_count(node->left);
+    else if (val < node->val)
+        return rank(val, node->left);
+    else
+        return 1 + get_count(node->left) + rank(val, node->right);
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 11 -->
+    <div class="exercise" id="ex11">
+      <div class="exercise-header">
+        <div class="exercise-num">11</div>
+        <div class="exercise-title"><code>bool is_chain() const</code></div>
+      </div>
+      <p class="exercise-desc">Returns <code>true</code> if the tree is a <strong>left-leaning chain</strong> (no right children) or a <strong>right-leaning chain</strong> (no left children).</p>
+      <button class="solution-toggle" data-target="sol11"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol11">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+bool BST<T>::is_chain() const {
+    if (root == nullptr)
+        return true;
+
+    // check if left-leaning chain
+    BSTNode<T>* curr = root;
+    bool left_chain = true;
+    while (curr != nullptr) {
+        if (curr->right != nullptr) {
+            left_chain = false;
+            break;
+        }
+        curr = curr->left;
+    }
+
+    if (left_chain)
+        return true;
+
+    // check if right-leaning chain
+    curr = root;
+    while (curr != nullptr) {
+        if (curr->left != nullptr)
+            return false;
+        curr = curr->right;
+    }
+
+    return true;
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 12 -->
+    <div class="exercise" id="ex12">
+      <div class="exercise-header">
+        <div class="exercise-num">12</div>
+        <div class="exercise-title"><code>bool is_bst() const</code></div>
+      </div>
+      <p class="exercise-desc">Returns <code>true</code> if the tree satisfies the BST ordering property. Multiple efficient solutions presented.</p>
+      <button class="solution-toggle" data-target="sol12"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol12">
+        <div class="solution-label">Solution #1 — In-order traversal gives sorted list O(n)</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+bool BST<T>::is_bst() const {
+    DLList<T> list = elements();
+    
+    DLLNode<T>* curr = list.head_node();
+    while (curr != nullptr && curr->get_next() != nullptr) {
+        if (curr->get_val() > curr->get_next()->get_val())
+            return false;
+        curr = curr->get_next();
+    }
+
+    return true;
+}"></pre>
+        </div>
+        <div class="solution-label" style="margin-top:20px;">Solution #2 — Range constraint check O(n)</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+bool BST<T>::is_bst() const {
+    return is_bst(root, nullptr, nullptr);
+}
+
+template <class T>
+bool BST<T>::is_bst(BSTNode<T>* curr, BSTNode<T>* lo, BSTNode<T>* hi) const {
+    if (curr == nullptr)
+        return true;
+
+    if (lo != nullptr && curr->val < lo->val)
+        return false;
+    if (hi != nullptr && curr->val > hi->val)
+        return false;
+
+    bool left_bst = is_bst(curr->left, lo, curr);
+    bool right_bst = is_bst(curr->right, curr, hi);
+
+    return left_bst && right_bst;   
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 13 -->
+    <div class="exercise" id="ex13">
+      <div class="exercise-header">
+        <div class="exercise-num">13</div>
+        <div class="exercise-title"><code>BST&lt;T&gt; build_balanced_bst(T a[], int size)</code></div>
+      </div>
+      <p class="exercise-desc">A <strong>non-member</strong> function that builds a <strong>balanced BST</strong> from the elements in the given array. You may sort the array. Uses the divide-and-conquer approach by always inserting the median first.</p>
+      <button class="solution-toggle" data-target="sol13"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol13">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+void build_balanced_bst(T a[], int lo, int hi, BST<T>& bst) {
+    if (lo > hi)
+        return;
+
+    int mid = lo + (hi - lo) / 2;
+    bst.insert(a[mid]);
+
+    build_balanced_bst(a, lo, mid-1, bst);
+    build_balanced_bst(a, mid+1, hi, bst);
+}
+
+template <class T>
+BST<T> build_balanced_bst(T a[], int size) {
+    BST<T> bst;
+    sort(a, a+size);
+    build_balanced_bst(a, 0, size-1, bst);
+    return bst;
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 14 -->
+    <div class="exercise" id="ex14">
+      <div class="exercise-header">
+        <div class="exercise-num">14</div>
+        <div class="exercise-title"><code>int count_in_range(const T&amp; lo, const T&amp; hi) const</code></div>
+      </div>
+      <p class="exercise-desc">Counts the number of keys in the tree that fall within the range [lo, hi] (inclusive). Both solutions run in <strong>O(height + k)</strong> where k is the number of in-range elements.</p>
+      <button class="solution-toggle" data-target="sol14"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol14">
+        <div class="solution-label">Solution #1 — Recursive (prune branches outside range)</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+int BST<T>::count_in_range(const T& lo, const T& hi) const {
+    return count_in_range(root, lo, hi);
+}
+
+template <class T>
+int BST<T>::count_in_range(BSTNode<T>* node, const T& lo, const T& hi) const {
+    if (node == nullptr)
+        return 0;
+
+    if (node->val >= lo && node->val <= hi)
+        return 1 + count_in_range(node->left, lo, hi)
+                 + count_in_range(node->right, lo, hi);
+    else if (hi < node->val)
+        return count_in_range(node->left, lo, hi);
+    else
+        return count_in_range(node->right, lo, hi);
+}"></pre>
+        </div>
+        <div class="solution-label" style="margin-top:20px;">Solution #2 — Iterative BFS with pruning</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+int BST<T>::count_in_range(const T& lo, const T& hi) const {
+    if (is_empty())
+        return 0;
+
+    int count = 0;
+    QueueDLL<BSTNode<T>*> queue;
+    queue.enqueue(root);
+
+    while (!queue.is_empty()) {
+        BSTNode<T>* node = queue.dequeue();
+        if (node->val >= lo && node->val <= hi)
+            count++;
+
+        if (node->left != nullptr && node->val >= lo)
+            queue.enqueue(node->left);
+
+        if (node->right != nullptr && node->val <= hi)
+            queue.enqueue(node->right);
+    }
+
+    return count;
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider">✦ · ✦ · ✦</div>
+
+  </div>
+
+  <footer class="page-footer">
+    <span>BST Exercises · CS11212 · PSUT</span>
+    <a href="../index.html">← Back to Study Guide</a>
+  </footer>
+
+  <script src="../shared.js"></script>
+</body>
+</html>

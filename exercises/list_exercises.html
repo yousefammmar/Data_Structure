@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Linked List Exercises — CS11212</title>
+  <meta name="description" content="14 programming exercises on Singly and Doubly Linked Lists with full solutions for PSUT Data Structures course." />
+  <link rel="stylesheet" href="../shared.css" />
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="back-link" href="../index.html">← Back to Main Site</a>
+      <span class="topbar-title">CS11212 · Data Structures &amp; Algorithms · PSUT</span>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <div class="toggle-track"><div class="toggle-thumb"></div></div>
+        <span id="themeLabel">DARK</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-cat">Exercises · Linked Lists</div>
+    <h1>Linked <em>List</em> Exercises</h1>
+    <p class="hero-sub">Based on <code>int_sll.h</code>, <code>dll.h</code>, and <code>ordered_dll.h</code> · 14 programming challenges with full solutions</p>
+  </div>
+
+  <div class="toc-bar">
+    <span class="toc-label">Jump to:</span>
+    <a class="toc-chip" href="#sll">Singly-Linked Lists</a>
+    <a class="toc-chip" href="#ex1">Ex 1</a>
+    <a class="toc-chip" href="#ex2">Ex 2</a>
+    <a class="toc-chip" href="#ex3">Ex 3</a>
+    <a class="toc-chip" href="#ex4">Ex 4</a>
+    <a class="toc-chip" href="#ex5">Ex 5</a>
+    <a class="toc-chip" href="#ex6">Ex 6</a>
+    <a class="toc-chip" href="#ex7">Ex 7</a>
+    <a class="toc-chip" href="#dll">Doubly-Linked Lists</a>
+    <a class="toc-chip" href="#ex8">Ex 8</a>
+    <a class="toc-chip" href="#ex9">Ex 9</a>
+    <a class="toc-chip" href="#ex10">Ex 10</a>
+    <a class="toc-chip" href="#ex11">Ex 11</a>
+    <a class="toc-chip" href="#ex12">Ex 12</a>
+    <a class="toc-chip" href="#ex13">Ex 13</a>
+    <a class="toc-chip" href="#ex14">Ex 14</a>
+  </div>
+
+  <div class="content">
+
+    <div class="section-heading" id="sll">Singly-Linked Lists (Exercises 1 – 7)</div>
+
+    <!-- EXERCISE 1 -->
+    <div class="exercise" id="ex1">
+      <div class="exercise-header">
+        <div class="exercise-num">01</div>
+        <div class="exercise-title"><code>bool is_sorted() const</code></div>
+      </div>
+      <p class="exercise-desc">Implement the following member function of class <code>List</code>, which checks if a singly-linked list is <strong>sorted</strong> in non-decreasing order.</p>
+      <div class="sig-label">Signature</div>
+      <div class="code-block">
+        <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+        <pre class="code-pre" data-code="bool is_sorted() const;"></pre>
+      </div>
+      <button class="solution-toggle" data-target="sol1"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol1">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div><button class="code-copy" data-code="bool List::is_sorted() const 
+{
+    if (is_empty())
+        return true;
+
+    for (Node* curr = head; curr->next != nullptr; curr = curr->next)
+        if (curr->val > curr->next->val)
+            return false;
+
+    return true;
+}">Copy</button></div>
+          <pre class="code-pre" data-code="bool List::is_sorted() const 
+{
+    if (is_empty())
+        return true;
+
+    for (Node* curr = head; curr->next != nullptr; curr = curr->next)
+        if (curr->val > curr->next->val)
+            return false;
+
+    return true;
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 2 -->
+    <div class="exercise" id="ex2">
+      <div class="exercise-header">
+        <div class="exercise-num">02</div>
+        <div class="exercise-title"><code>int get_max() const</code></div>
+      </div>
+      <p class="exercise-desc">Implement the following member function of class <code>List</code>, which returns the maximum element. If the list is empty, the function should throw an exception.</p>
+      <button class="solution-toggle" data-target="sol2"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol2">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div><button class="code-copy" data-code='int List::get_max() const 
+{
+    if (is_empty())
+        throw string("ERROR: Attempting to get the max in an empty list");
+  
+    Node* max_node = head;
+    for (Node* curr = head->next; curr != nullptr; curr = curr->next)
+        if (curr->val > max_node->val)
+            max_node = curr;
+  
+    return max_node->val;
+}'>Copy</button></div>
+          <pre class="code-pre" data-code='int List::get_max() const 
+{
+    if (is_empty())
+        throw string("ERROR: Attempting to get the max in an empty list");
+  
+    Node* max_node = head;
+    for (Node* curr = head->next; curr != nullptr; curr = curr->next)
+        if (curr->val > max_node->val)
+            max_node = curr;
+  
+    return max_node->val;
+}'></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 3 -->
+    <div class="exercise" id="ex3">
+      <div class="exercise-header">
+        <div class="exercise-num">03</div>
+        <div class="exercise-title"><code>void selection_sort()</code></div>
+      </div>
+      <p class="exercise-desc">Implement the following member function of class <code>List</code>, which sorts the singly-linked list using <strong>Selection Sort</strong>.</p>
+      <button class="solution-toggle" data-target="sol3"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol3">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="void List::selection_sort() 
+{
+    for (Node* ptr1 = head; ptr1 != tail; ptr1 = ptr1->next) {
+        // find the minimum from ptr1 to the tail
+        Node* min_ptr = ptr1;
+        for (Node* ptr2 = ptr1->next; ptr2 != nullptr; ptr2 = ptr2->next) {
+            if (ptr2->val < min_ptr->val)
+                min_ptr = ptr2;
+        }
+
+        swap(ptr1->val, min_ptr->val);  
+    }
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 4 -->
+    <div class="exercise" id="ex4">
+      <div class="exercise-header">
+        <div class="exercise-num">04</div>
+        <div class="exercise-title"><code>bool check_seq3(int val) const</code></div>
+      </div>
+      <p class="exercise-desc">Returns <code>true</code> if the list contains a sequence of 3 consecutive values equal to <code>val</code>.</p>
+      <div class="example-note"><strong>Example:</strong> <code>check_seq3(9)</code> is true for <code>1, 2, 5, 2, 9, 9, 9, 5</code> but not for <code>1, 9, 1, 9, 1, 9</code> or <code>9, 9</code>.</div>
+      <button class="solution-toggle" data-target="sol4"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol4">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="bool List::check_seq3(int val) const
+{
+    // if the list has <= 2 elements
+    if (head == tail || head->next == tail)
+        return false;
+        
+    Node* curr = head;
+    while (curr->next->next != nullptr) {
+        if (curr->val == val && curr->next->val == val && curr->next->next->val == val)
+            return true;
+        curr = curr->next;
+    }
+    
+    return false;
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 5 -->
+    <div class="exercise" id="ex5">
+      <div class="exercise-header">
+        <div class="exercise-num">05</div>
+        <div class="exercise-title"><code>bool check_seq(int k, int val) const</code></div>
+      </div>
+      <p class="exercise-desc">Returns <code>true</code> if <code>val</code> appears exactly <code>k</code> times consecutively in the list.</p>
+      <div class="example-note"><strong>Example:</strong> <code>check_seq(3, 9)</code> is true for <code>1, 2, 5, 2, 9, 9, 9, 5</code> but not for <code>1, 9, 1, 9, 1, 9</code>.</div>
+      <button class="solution-toggle" data-target="sol5"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol5">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="bool List::check_seq(int k, int val) const
+{
+    if (k < 0)  return false;
+    if (k == 0) return true;
+
+    int count = 0;
+    Node* curr = head;
+    while (curr != nullptr) {
+        if (curr->val != val)
+            count = 0;
+        else 
+            count++;
+        
+        if (count == k) 
+            return true;
+        else            
+            curr = curr->next;
+    }
+
+    return false;
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 6 -->
+    <div class="exercise" id="ex6">
+      <div class="exercise-header">
+        <div class="exercise-num">06</div>
+        <div class="exercise-title"><code>void print_reverse(Node* node)</code></div>
+      </div>
+      <p class="exercise-desc">Implement a <strong>recursive</strong> function that prints the contents of the singly-linked list in reverse. It is called as: <code>print_reverse(head)</code>.</p>
+      <button class="solution-toggle" data-target="sol6"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol6">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="void List::print_reverse(Node* node) 
+{
+    if (node == nullptr)
+        return;
+    print_reverse(node->next);
+    cout << node->val << &quot; &quot;;
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 7 -->
+    <div class="exercise" id="ex7">
+      <div class="exercise-header">
+        <div class="exercise-num">07</div>
+        <div class="exercise-title"><code>void reverse()</code></div>
+      </div>
+      <p class="exercise-desc">Implement the function that reverses the singly-linked list <strong>in-place</strong>. Multiple solutions are provided, including iterative and recursive approaches.</p>
+      <button class="solution-toggle" data-target="sol7"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol7">
+        <div class="solution-label">Solution #1 — Using a temporary list</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="void List::reverse() {
+    List temp_list;
+
+    while (!is_empty()) {
+        temp_list.add_to_head(head->val);
+        remove_head();
+    }
+
+    while (!temp_list.is_empty()) {
+        add_to_tail(temp_list.head->val);
+        temp_list.remove_head();
+    }
+}"></pre>
+        </div>
+        <div class="solution-label" style="margin-top:20px;">Solution #2 — In-place pointer reversal (optimal)</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="void List::reverse() {
+    Node* prev = nullptr;
+    Node* curr = head;
+
+    while (curr != nullptr) {
+        Node* temp = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = temp;
+    }
+
+    swap(head, tail);
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider">✦ · ✦ · ✦</div>
+
+    <div class="section-heading" id="dll">Doubly-Linked Lists (Exercises 8 – 14)</div>
+
+    <!-- EXERCISE 8 -->
+    <div class="exercise" id="ex8">
+      <div class="exercise-header">
+        <div class="exercise-num">08</div>
+        <div class="exercise-title"><code>void reverse()</code> — DLL version</div>
+      </div>
+      <p class="exercise-desc">Implement the function that reverses the <strong>doubly-linked</strong> list by swapping values from both ends toward the center.</p>
+      <button class="solution-toggle" data-target="sol8"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol8">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+void DLList<T>::reverse() 
+{
+    if (head == tail) // 0 or 1 nodes
+        return;
+
+    DLLNode<T>* ptr1 = head;
+    DLLNode<T>* ptr2 = tail;  
+
+    //     (odd size)        (even size)  
+    while (ptr1 != ptr2 && ptr1->prev != ptr2) {
+        T temp = ptr1->val;    
+        ptr1->val = ptr2->val;
+        ptr2->val = temp;
+        ptr1 = ptr1->next;
+        ptr2 = ptr2->prev;
+    }
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 9 -->
+    <div class="exercise" id="ex9">
+      <div class="exercise-header">
+        <div class="exercise-num">09</div>
+        <div class="exercise-title"><code>T get_at_index(int index) const</code></div>
+      </div>
+      <p class="exercise-desc">Returns the value at the given <code>index</code> in the doubly-linked list, where <code>head</code> is at index 0. Throws an exception if the index is invalid.</p>
+      <button class="solution-toggle" data-target="sol9"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol9">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code='template <class T>
+T DLList<T>::get_at_index(int index) const 
+{  
+    if (index < 0)
+        throw string("ERROR: Invalid index passed to get_at_index()");
+    
+    int count = 0;
+    DLLNode<T>* curr = head;
+    while (curr != nullptr) {
+        if (count == index)
+            return curr->val;
+        curr = curr->next;
+        count++;
+    }
+
+    // if execution reaches here, index is out of range    
+    throw string("ERROR: Invalid index passed to get_at_index()");
+}'></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 10 -->
+    <div class="exercise" id="ex10">
+      <div class="exercise-header">
+        <div class="exercise-num">10</div>
+        <div class="exercise-title"><code>DLList sublist(int index1, int index2) const</code></div>
+      </div>
+      <p class="exercise-desc">Returns a new list containing the values between the given indices (inclusive). Throws an exception if any index is invalid. If <code>index2</code> is larger than the list size, returns from <code>index1</code> to the tail.</p>
+      <button class="solution-toggle" data-target="sol10"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol10">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code='template <class T>
+DLList<T> DLList<T>::sublist(int index1, int index2) const 
+{  
+    if (index1 < 0 || index2 < 0 || index1 > index2)
+        throw string("ERROR: Invalid index passed to sublist()");
+
+    // get to index1  
+    int count = 0;  
+    DLLNode<T>* curr = head;
+    while (curr != nullptr) {
+        if (count == index1)
+            break;
+        curr = curr->next;
+        count++;
+    }
+
+    if (curr == nullptr)
+        throw string("ERROR: Invalid index passed to sublist()");
+
+    // collect values from index1 to index2
+    DLList<T> result;  
+    while (curr != nullptr && count <= index2) {
+        result.add_to_tail(curr->val);
+        curr = curr->next;
+        count++;  
+    }
+
+    return result;
+}'></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 11 -->
+    <div class="exercise" id="ex11">
+      <div class="exercise-header">
+        <div class="exercise-num">11</div>
+        <div class="exercise-title"><code>void remove(int index1, int index2)</code></div>
+      </div>
+      <p class="exercise-desc">Removes all nodes between the given indices (inclusive). Throws an exception if indices are invalid.</p>
+      <button class="solution-toggle" data-target="sol11"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol11">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code='template <class T>
+void DLList<T>::remove(int index1, int index2) 
+{  
+    if (index1 < 0 || index2 < 0 || index1 > index2)        
+        throw string("ERROR: Invalid index passed to sublist()");     
+
+    DLList<T> new_list;      
+
+    // collect all nodes that are NOT between index1 and index2
+    int count = 0;   
+    DLLNode<T>* curr = head;    
+    while (curr != nullptr) {        
+        if (count < index1 || count > index2)
+            new_list.add_to_tail(curr->val);
+        curr = curr->next;
+        count++;
+    }      
+
+    if (count <= index1)      
+        throw string("ERROR: Invalid index passed to sublist()");      
+
+    *this = new_list;
+}'></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 12 -->
+    <div class="exercise" id="ex12">
+      <div class="exercise-header">
+        <div class="exercise-num">12</div>
+        <div class="exercise-title"><code>void remove_all(const T&amp; val)</code></div>
+      </div>
+      <p class="exercise-desc">Removes all occurrences of the given value from the doubly-linked list.</p>
+      <button class="solution-toggle" data-target="sol12"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol12">
+        <div class="solution-label">Solution #1 — Direct pointer manipulation</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+void DLList<T>::remove_all(const T& val) 
+{
+    if (is_empty())
+        return;
+
+    while (head->val == val) {
+        remove_head();
+        if (head == nullptr)
+            return;
+    }
+
+    while (tail->val == val)
+        remove_tail();
+
+    DLLNode<T>* curr = head->next;
+
+    while (curr != nullptr) {
+        if (curr->val == val) {
+            DLLNode<T>* succ = curr->next;
+            DLLNode<T>* pred = curr->prev;
+            succ->prev = pred;
+            pred->next = succ;
+            delete curr;
+            curr = succ;
+        } else
+            curr = curr->next;    
+    }
+}"></pre>
+        </div>
+        <div class="solution-label" style="margin-top:20px;">Solution #2 — Using a temporary list (simpler)</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+void DLList<T>::remove_all(const T& val) 
+{
+    DLList<T> temp_list;
+
+    while (!is_empty()) {
+        if (head->val != val)
+            temp_list.add_to_tail(head->val);
+        remove_head();
+    }
+
+    *this = temp_list;
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 13 -->
+    <div class="exercise" id="ex13">
+      <div class="exercise-header">
+        <div class="exercise-num">13</div>
+        <div class="exercise-title"><code>DLList find_common(const DLList&amp; other) const</code></div>
+      </div>
+      <p class="exercise-desc">Returns all common values between this list and <code>other</code>, stored in ascending order. No value appears in the same list more than once. An O(n²) solution is acceptable.</p>
+      <button class="solution-toggle" data-target="sol13"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol13">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+DLList<T> DLList<T>::find_common(const DLList<T>& other) const 
+{
+    DLList<T> result;
+
+    if (is_empty() || other.is_empty())    
+        return result;
+
+    for (DLLNode<T>* ptr1 = head; ptr1 != nullptr; ptr1 = ptr1->next) {    
+        for (DLLNode<T>* ptr2 = other.head; ptr2 != nullptr; ptr2 = ptr2->next) {
+            if (ptr1->val == ptr2->val) {
+                result.add_to_tail(ptr1->val);
+                break;
+            }
+        }
+    }
+
+    // sort the result list (bubble sort on values)
+    for (DLLNode<T>* i = result.head; i != result.tail; i = i->next) {
+        for (DLLNode<T>* j = result.tail; j != i; j = j->prev) {
+            if (j->val < j->prev->val)
+                std::swap(j->val, j->prev->val);
+        }
+    }
+
+    return result;
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 14 -->
+    <div class="exercise" id="ex14">
+      <div class="exercise-header">
+        <div class="exercise-num">14</div>
+        <div class="exercise-title"><code>void remove_duplicates()</code> — OrderedDLList</div>
+      </div>
+      <p class="exercise-desc">Implement for class <code>OrderedDLList</code>. Removes all duplicate elements so the list contains only distinct values.</p>
+      <div class="example-note"><strong>Example:</strong> <code>1, 1, 1, 2, 3, 4, 4, 5, 5, 5</code> → <code>1, 2, 3, 4, 5</code></div>
+      <button class="solution-toggle" data-target="sol14"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol14">
+        <div class="solution-label">Solution #1 — In-place pointer manipulation</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+void OrderedDLList<T>::remove_duplicates() 
+{
+    if (head == tail) 
+        return;
+        
+    DLLNode<T>* curr = head->next;
+    DLLNode<T>* pred = head;
+    
+    while (curr != nullptr) {
+        if (pred->val == curr->val) {
+            if (curr == tail) {
+                remove_tail();
+                return;
+            } else {
+                curr = curr->next;
+                delete curr->prev;
+                curr->prev = pred;
+                pred->next = curr;
+            }
+        } else {
+            curr = curr->next;
+            pred = pred->next;
+        }
+    }
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider">✦ · ✦ · ✦</div>
+
+  </div>
+
+  <footer class="page-footer">
+    <span>Linked List Exercises · CS11212 · PSUT</span>
+    <a href="../index.html">← Back to Study Guide</a>
+  </footer>
+
+  <script src="../shared.js"></script>
+</body>
+</html>

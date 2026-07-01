@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stacks &amp; Queues — Study Guide · CS11212</title>
+  <meta name="description" content="Study guide for Stacks and Queues in PSUT Data Structures course." />
+  <link rel="stylesheet" href="../shared.css" />
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="back-link" href="../index.html">← Back to Main Site</a>
+      <span class="topbar-title">CS11212 · Data Structures &amp; Algorithms · PSUT</span>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <div class="toggle-track"><div class="toggle-thumb"></div></div>
+        <span id="themeLabel">DARK</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-cat">Study Guide · Topic 4</div>
+    <h1>Stacks &amp; <em>Queues</em></h1>
+    <p class="hero-sub">Array and linked-list implementations · <code>stack_dll.h</code> · <code>queue_array.h</code> · Circular arrays</p>
+  </div>
+
+  <div class="content">
+
+    <div class="section-heading">Recommended Study Path</div>
+
+    <div class="exercise">
+      <div class="exercise-header">
+        <div class="exercise-num">01</div>
+        <div class="exercise-title">Study All Four Implementation Files</div>
+      </div>
+      <p class="exercise-desc">Make sure you understand the slides and can write and analyze the code in all implementation files:</p>
+      <div style="margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
+        <a href="https://github.com/ialbluwi/psut-data-structures/blob/main/code/stack_dll.h" target="_blank" rel="noopener" class="resource-link">📄 stack_dll.h ↗</a>
+        <a href="https://github.com/ialbluwi/psut-data-structures/blob/main/code/stack_array.h" target="_blank" rel="noopener" class="resource-link">📄 stack_array.h ↗</a>
+        <a href="https://github.com/ialbluwi/psut-data-structures/blob/main/code/queue_dll.h" target="_blank" rel="noopener" class="resource-link">📄 queue_dll.h ↗</a>
+        <a href="https://github.com/ialbluwi/psut-data-structures/blob/main/code/queue_array.h" target="_blank" rel="noopener" class="resource-link">📄 queue_array.h ↗</a>
+        <a href="https://github.com/ialbluwi/psut-data-structures/blob/main/code/stack_queue.cpp" target="_blank" rel="noopener" class="resource-link">📄 stack_queue.cpp ↗</a>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-header">
+        <div class="exercise-num">02</div>
+        <div class="exercise-title">Practice Exercises</div>
+      </div>
+      <p class="exercise-desc">Work through all 5 exercises on the <code>QueueArray</code> class:</p>
+      <div style="margin-top: 16px;">
+        <a href="../exercises/stacks_queues_exercises.html" class="resource-link">📝 Stacks &amp; Queues Exercises ↗</a>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-header">
+        <div class="exercise-num">03</div>
+        <div class="exercise-title">Recent Previous Exams</div>
+      </div>
+      <table>
+        <thead><tr><th>Exam</th><th>Question</th><th>Solution</th></tr></thead>
+        <tbody>
+          <tr><td>Second Exam – Fall 2022</td><td>Question 1</td><td><a href="https://drive.google.com/file/d/1caBxJHxHRAk1k-fz-fDn51XMe-ds1Cg0/view?usp=share_link" target="_blank" rel="noopener">Solution ↗</a></td></tr>
+          <tr><td>Second Exam – Spring 2022</td><td>Question 2</td><td><a href="https://drive.google.com/file/d/1B2wwtuXLiJjhmAHoVMnpWm2kEAx9GpOF/view?usp=share_link" target="_blank" rel="noopener">Solution ↗</a></td></tr>
+          <tr><td>Midterm – Fall 2021</td><td><a href="https://drive.google.com/file/d/1dAMSwZIaUHxgv95D3pNuzg9Qh0bcr_UY/view?usp=share_link" target="_blank" rel="noopener">Question 2 ↗</a></td><td><a href="https://drive.google.com/file/d/1JJMzZyC2iNYfi3XsEUYSThoFLZ-pvitw/view?usp=share_link" target="_blank" rel="noopener">Solution ↗</a></td></tr>
+          <tr><td>Final Exam – Fall 2021</td><td><a href="https://drive.google.com/file/d/1tjQJ4rxh3BNF0yc0lvceFv3DuwS_XAdX/view?usp=share_link" target="_blank" rel="noopener">Question 5 ↗</a></td><td>—</td></tr>
+          <tr><td>Final Exam – Spring 2022</td><td><a href="https://drive.google.com/file/d/1fDMaAQVWAao2sVxTA-YpLZpCRLkpmlyK/view?usp=share_link" target="_blank" rel="noopener">Question 5 ↗</a></td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-header">
+        <div class="exercise-num">04</div>
+        <div class="exercise-title">Old Previous Exams</div>
+      </div>
+      <p class="exercise-desc">You can find questions on stacks and queues in previous second and final exams.</p>
+    </div>
+
+    <div class="example-note" style="margin-top: 32px;">
+      <strong>📌 Important Note:</strong> Make sure to practice by writing <em>full programs</em> (on paper or in the IDE). Compare your solution to the reference and understand the differences. Only reading solutions without writing code yourself does not prepare you adequately.
+    </div>
+
+    <div class="divider">✦ · ✦ · ✦</div>
+
+  </div>
+
+  <footer class="page-footer">
+    <span>Stacks &amp; Queues Study Guide · CS11212 · PSUT</span>
+    <a href="../index.html">← Back to Main Site</a>
+  </footer>
+
+  <style>
+    .resource-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      background: var(--accent-pale);
+      border: 1.5px solid var(--accent);
+      color: var(--accent);
+      text-decoration: none;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+    .resource-link:hover { background: var(--accent); color: var(--paper); }
+    table a { color: var(--accent); }
+  </style>
+
+  <script src="../shared.js"></script>
+</body>
+</html>

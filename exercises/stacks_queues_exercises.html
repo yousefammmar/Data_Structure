@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stacks &amp; Queues Exercises — CS11212</title>
+  <meta name="description" content="5 programming exercises on QueueArray with full solutions for PSUT Data Structures course." />
+  <link rel="stylesheet" href="../shared.css" />
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a class="back-link" href="../index.html">← Back to Main Site</a>
+      <span class="topbar-title">CS11212 · Data Structures &amp; Algorithms · PSUT</span>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <div class="toggle-track"><div class="toggle-thumb"></div></div>
+        <span id="themeLabel">DARK</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-cat">Exercises · Stacks &amp; Queues</div>
+    <h1>Queues <em>Exercises</em></h1>
+    <p class="hero-sub">Based on <code>queue_array.h</code> · 5 programming challenges with full solutions</p>
+  </div>
+
+  <div class="toc-bar">
+    <span class="toc-label">Jump to:</span>
+    <a class="toc-chip" href="#ex1">Ex 1 — print()</a>
+    <a class="toc-chip" href="#ex2">Ex 2 — postpone()</a>
+    <a class="toc-chip" href="#ex3">Ex 3 — normalize()</a>
+    <a class="toc-chip" href="#ex4">Ex 4 — remove_all()</a>
+    <a class="toc-chip" href="#ex5">Ex 5 — move_first_to()</a>
+  </div>
+
+  <div class="content">
+
+    <!-- EXERCISE 1 -->
+    <div class="exercise" id="ex1">
+      <div class="exercise-header">
+        <div class="exercise-num">01</div>
+        <div class="exercise-title"><code>void print() const</code></div>
+      </div>
+      <p class="exercise-desc">Implement the member function of class <code>QueueArray</code> that prints all elements in the queue. Note the function is <code>const</code>, so <code>enqueue()</code> and <code>dequeue()</code> cannot be called — you must iterate using the circular array's internal index.</p>
+      <div class="sig-label">Signature</div>
+      <div class="code-block">
+        <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+        <pre class="code-pre" data-code="void print() const"></pre>
+      </div>
+      <button class="solution-toggle" data-target="sol1"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol1">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+void QueueArray<T>::print() const 
+{
+    cout << &quot;[&quot;;
+    
+    int i = first;
+    int count = 0;
+    while (count < size) {
+        cout << data[i];
+        if (count < size-1)
+            cout << &quot;, &quot;;
+        count++;
+        i = (i+1) % capacity;
+    }
+    
+    cout << &quot;]&quot;;
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 2 -->
+    <div class="exercise" id="ex2">
+      <div class="exercise-header">
+        <div class="exercise-num">02</div>
+        <div class="exercise-title"><code>void postpone()</code></div>
+      </div>
+      <p class="exercise-desc">Postpones the first element one position — i.e., swaps the first and second elements in the queue. Does nothing if the queue has 0 or 1 elements.</p>
+      <button class="solution-toggle" data-target="sol2"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol2">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+void QueueArray<T>::postpone() 
+{
+    if (size == 0 || size == 1)
+        return;
+    swap(data[first], data[(first + 1) % capacity]);
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 3 -->
+    <div class="exercise" id="ex3">
+      <div class="exercise-header">
+        <div class="exercise-num">03</div>
+        <div class="exercise-title"><code>void normalize()</code></div>
+      </div>
+      <p class="exercise-desc">Rearranges the elements in the queue array so that the first element starts at index <code>0</code>, without changing the order of elements.</p>
+      <button class="solution-toggle" data-target="sol3"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol3">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+void QueueArray<T>::normalize() 
+{
+    if (first == 0 || first == -1)
+        return;
+    
+    QueueArray<T> temp_q;
+    while (!is_empty())
+        temp_q.enqueue(dequeue());
+    
+    *this = temp_q;
+        
+    // A better idea is to just call resize(capacity), which
+    // has a similar effect. 
+    
+    // Another more tedious idea is to create a new array, copy
+    // the elements from the old array into the new one starting
+    // at index 0, delete the old array and assign the data pointer
+    // to the new array.
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 4 -->
+    <div class="exercise" id="ex4">
+      <div class="exercise-header">
+        <div class="exercise-num">04</div>
+        <div class="exercise-title"><code>void remove_all(QueueArray&lt;T&gt;&amp; queue, const T&amp; val)</code></div>
+      </div>
+      <p class="exercise-desc">A <strong>non-member</strong> function that removes all occurrences of <code>val</code> from the queue.</p>
+      <button class="solution-toggle" data-target="sol4"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol4">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code="template <class T>
+void remove_all(QueueArray<T>& queue, const T& val)
+{
+    QueueArray<T> temp_q;
+    while (!queue.is_empty()) {
+        T curr_val = queue.dequeue();
+        if (curr_val != val)
+            temp_q.enqueue(curr_val);
+    }
+    
+    while (!temp_q.is_empty())
+        queue.enqueue(temp_q.dequeue());
+}"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 5 -->
+    <div class="exercise" id="ex5">
+      <div class="exercise-header">
+        <div class="exercise-num">05</div>
+        <div class="exercise-title"><code>void move_first_to(QueueArray&lt;T&gt;&amp; queue, int pos)</code></div>
+      </div>
+      <p class="exercise-desc">A <strong>non-member</strong> function that moves the first element in the queue to be at the given position (0-indexed).</p>
+      <div class="example-note"><strong>Example:</strong> Queue <code>[0, 1, 2, 3, 4, 5, 6, 7]</code> with <code>pos=3</code> becomes <code>[1, 2, 3, 0, 4, 5, 6, 7]</code></div>
+      <button class="solution-toggle" data-target="sol5"><span class="toggle-arrow">▶</span> <span class="toggle-text">Show Solution</span></button>
+      <div class="solution-block" id="sol5">
+        <div class="solution-label">Solution</div>
+        <div class="code-block">
+          <div class="code-bar"><div class="code-dots"><div class="code-dot dot-r"></div><div class="code-dot dot-y"></div><div class="code-dot dot-g"></div></div></div>
+          <pre class="code-pre" data-code='template <class T>
+void move_first_to(QueueArray<T>& queue, int pos)
+{
+    if (pos < 0 || pos >= queue.get_size())
+        throw string("ERROR: Invalid argument(s)");
+              
+    QueueArray<T> temp_q;
+    T first_val = queue.dequeue();
+                     
+    for (int i = 0; i < pos; i++)
+        temp_q.enqueue(queue.dequeue());
+                     
+    temp_q.enqueue(first_val);
+                     
+    while (!queue.is_empty())
+        temp_q.enqueue(queue.dequeue());
+    
+    while (!temp_q.is_empty())
+        queue.enqueue(temp_q.dequeue());
+}'></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider">✦ · ✦ · ✦</div>
+
+  </div>
+
+  <footer class="page-footer">
+    <span>Stacks &amp; Queues Exercises · CS11212 · PSUT</span>
+    <a href="../index.html">← Back to Study Guide</a>
+  </footer>
+
+  <script src="../shared.js"></script>
+</body>
+</html>
